@@ -1,0 +1,8 @@
+/target
+
+example/public
+
+.idea
+.vscode
+
+.DS_Store
