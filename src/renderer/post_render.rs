@@ -1,12 +1,21 @@
-use std::path::PathBuf;
+use std::path::Path;
 use std::process::Command;
 
 use chrono::{Datelike, Timelike};
 use regex::Regex;
 
-pub fn add_github_things(html: String, github_url: &Option<String>, path: &PathBuf) -> String {
+pub fn add_github_things<P: AsRef<Path>>(
+    html: String,
+    github_url: &Option<String>,
+    path: P,
+) -> String {
     if let Some(github_url) = github_url {
-        let path = path.clone().into_os_string().into_string().unwrap();
+        let path = path
+            .as_ref()
+            .as_os_str()
+            .to_os_string()
+            .into_string()
+            .unwrap();
 
         let regex = Regex::new(r##"<!-- :title=(.*?): -->"##).unwrap();
         let title = &regex.captures_iter(&*html).collect::<Vec<_>>()[0][1];
