@@ -65,7 +65,24 @@ impl Wiki {
         handlebars
             .register_template_string("index.hbs", str::from_utf8(public::INDEX_HBS).unwrap())
             .unwrap();
-        let data = serde_json::Map::new();
+
+        let mut data = serde_json::Map::new();
+        match &self.config.html {
+            Some(h) => match &h.ga {
+                Some(g) => {
+                    data.insert("google_analytics".to_string(), json!(g));
+                }
+                None => {}
+            },
+            None => {}
+        }
+
+        match &self.config.wiki.author {
+            Some(a) => {
+                data.insert("author".to_string(), json!(a));
+            }
+            None => {}
+        }
 
         for page in self.pages.iter() {
             page.render(&self.config, &handlebars, data.clone());

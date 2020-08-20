@@ -94,6 +94,8 @@ impl Page {
 
         path::make_dir_above(&self.to);
         fs::write(&self.to, html).expect(&*format!("writing to {:?} failed", self.to));
+
+        println!("Rendered {:?}", self.from);
     }
 }
 
