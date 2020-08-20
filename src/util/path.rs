@@ -17,16 +17,6 @@ pub fn make_dir_above<P: AsRef<Path>>(path: P) {
         .expect(&*format!("make dir above {:?} failed", path.as_ref()));
 }
 
-pub fn move_file<P: AsRef<Path>>(path: P) {
-    let to = &*target_path(path.as_ref());
-    make_dir_above(to);
-    fs::copy(path.as_ref(), to).expect(&*format!("file {:?} copy failed", path.as_ref()));
-}
-
-pub fn target_path<P: AsRef<Path>>(path: P) -> PathBuf {
-    Path::new("public").join(path.as_ref().strip_prefix("src").unwrap())
-}
-
 pub fn os_to_str<O: AsRef<OsStr>>(os: O) -> String {
     os.as_ref().to_os_string().into_string().unwrap()
 }

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="/r/css/style.css">
+    <link rel="stylesheet" href="/r/css/androidstudio.min.css">
+    <script>
+        function addOnload(fun) {
+            let last = window.onload;
+            window.onload = function () {
+                if (last) last();
+                fun();
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="content">
+    <div class="content-wrap">
+        <div class="main-wrap">
+            <div class="mobile-info">
+                <div class="github-link">
+                    <!-- :github-edit: -->
+                    <!-- :github-history: -->
+                    <!-- :view-in-github-mobile: -->
+                    <!-- :github-make-issue-mobile: -->
+                    <!-- :github-view-issue-mobile: -->
+                </div>
+                <p><!-- :time: --></p>
+                <div class="contributors">
+                    <!-- :github-contributors: -->
+                </div>
+            </div>
+            <main>
+                {{{ content }}}
+            </main>
+        </div>
+
+        <div class="sidebar-wrap">
+            <nav class="toc">
+                <!-- :toc: -->
+            </nav>
+            <svg class="toc-marker" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+                <path id="toc-path" stroke-width="2" fill="transparent" stroke-dasharray="0, 0, 0, 1000"
+                      stroke-linecap="round" stroke-linejoin="round" transform="translate(-0.5, -0.5)"/>
+            </svg>
+            <p>
+                <!-- :time: -->
+            </p>
+            <div class="contributors">
+                <!-- :github-contributors: -->
+            </div>
+            <div class="github-link">
+                <!-- :github-edit: -->
+                <!-- :github-history: -->
+                <!-- :view-in-github: -->
+                <!-- :github-make-issue: -->
+                <!-- :github-view-issue: -->
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/r/js/wiki.js"></script>
+<script src="/r/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

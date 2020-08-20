@@ -1,8 +1,7 @@
-use wiki_generator::config::config::get_config;
-use wiki_generator::renderer::render::render;
-use wiki_generator::themes::init;
+use wiki_generator::config::config;
+use wiki_generator::wiki::wiki::Wiki;
 
 fn main() {
-    init();
-    render(&get_config());
+    let mut wiki = Wiki::new(config::get_config());
+    wiki.render();
 }

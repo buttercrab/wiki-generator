@@ -11,6 +11,9 @@ pub struct Config {
 pub struct Wiki {
     pub(crate) title: String,
     pub(crate) author: Option<String>,
+    pub(crate) src: Option<String>,
+    pub(crate) out: Option<String>,
+    pub(crate) preserve: Option<Vec<String>>,
 }
 
 #[derive(Deserialize)]

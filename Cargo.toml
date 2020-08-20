@@ -9,7 +9,7 @@ edition = "2018"
 [dependencies]
 chrono = "0.4"
 handlebars = "3"
-pulldown-cmark = { version = "0.7", default-features = false }
+pulldown-cmark = "0.7"
 regex = "1"
 reqwest = { version = "0.10", features = ["blocking"] }
 serde = { version = "1.0", features = ["derive"] }
