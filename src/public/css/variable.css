@@ -2,6 +2,14 @@
     --sidebar-width: 0px;
     --page-padding: 15px;
     --content-max-width: 600px;
-    --menu-bar-height: 50px;
+    --top-bar-height: 50px;
     --right-bar-width: 250px;
+}
+
+.dark {
+    --bg: rgb(47, 47, 47);
+    --darken-fg: rgb(88, 88, 88);
+    --fg: rgb(195, 195, 195);
+
+    --link: rgb(85, 155, 200);
 }

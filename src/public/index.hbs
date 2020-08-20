@@ -1,9 +1,10 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" class="dark">
 <head>
     <meta charset="UTF-8">
     <title>{{ title }}</title>
     <link rel="stylesheet" href="/r/css/style.css">
+    <link rel="stylesheet" href="/r/css/variable.css">
     <link rel="stylesheet" href="/r/css/androidstudio.min.css">
     <script>
         function addOnload(fun) {
@@ -16,47 +17,54 @@
     </script>
 </head>
 <body>
-<div class="content">
-    <div class="content-wrap">
-        <div class="main-wrap">
-            <div class="mobile-info">
-                <div class="github-link">
-                    <!-- :github-edit: -->
-                    <!-- :github-history: -->
-                    <!-- :view-in-github-mobile: -->
-                    <!-- :github-make-issue-mobile: -->
-                    <!-- :github-view-issue-mobile: -->
+<div class="page-wrap">
+    <div class="top-bar">
+        <div class="top-bar-wrap">
+
+        </div>
+    </div>
+    <div class="content">
+        <div class="content-wrap">
+            <div class="main-wrap">
+                <div class="mobile-info">
+                    <div class="github-link">
+                        <!-- :github-edit: -->
+                        <!-- :github-history: -->
+                        <!-- :view-in-github-mobile: -->
+                        <!-- :github-make-issue-mobile: -->
+                        <!-- :github-view-issue-mobile: -->
+                    </div>
+                    <p><!-- :time: --></p>
+                    <div class="contributors">
+                        <!-- :github-contributors: -->
+                    </div>
                 </div>
-                <p><!-- :time: --></p>
+                <main>
+                    {{{ content }}}
+                </main>
+            </div>
+
+            <div class="sidebar-wrap">
+                <nav class="toc">
+                    <!-- :toc: -->
+                </nav>
+                <svg class="toc-marker" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+                    <path id="toc-path" stroke-width="2" fill="transparent" stroke-dasharray="0, 0, 0, 1000"
+                          stroke-linecap="round" stroke-linejoin="round" transform="translate(-0.5, -0.5)"/>
+                </svg>
+                <p>
+                    <!-- :time: -->
+                </p>
                 <div class="contributors">
                     <!-- :github-contributors: -->
                 </div>
-            </div>
-            <main>
-                {{{ content }}}
-            </main>
-        </div>
-
-        <div class="sidebar-wrap">
-            <nav class="toc">
-                <!-- :toc: -->
-            </nav>
-            <svg class="toc-marker" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
-                <path id="toc-path" stroke-width="2" fill="transparent" stroke-dasharray="0, 0, 0, 1000"
-                      stroke-linecap="round" stroke-linejoin="round" transform="translate(-0.5, -0.5)"/>
-            </svg>
-            <p>
-                <!-- :time: -->
-            </p>
-            <div class="contributors">
-                <!-- :github-contributors: -->
-            </div>
-            <div class="github-link">
-                <!-- :github-edit: -->
-                <!-- :github-history: -->
-                <!-- :view-in-github: -->
-                <!-- :github-make-issue: -->
-                <!-- :github-view-issue: -->
+                <div class="github-link">
+                    <!-- :github-edit: -->
+                    <!-- :github-history: -->
+                    <!-- :view-in-github: -->
+                    <!-- :github-make-issue: -->
+                    <!-- :github-view-issue: -->
+                </div>
             </div>
         </div>
     </div>
@@ -67,10 +75,17 @@
 {{#if google_analytics}}
     <!-- Google Analytics -->
     <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
         ga('create', '{{ google_analytics }}', 'auto');
         ga('send', 'pageview');
