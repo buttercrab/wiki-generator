@@ -4,7 +4,7 @@ rustup default nightly
 cargo build --release
 cd target/release
 
-bin="wiki-generator-$1.tar.gz"
+bin="wiki-generator-linux.tar.gz"
 tar czf ../../"$bin" wiki-generator
 
 cd ../..
