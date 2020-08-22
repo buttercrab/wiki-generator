@@ -1,87 +1,30 @@
 @import 'variable.css';
 
-@font-face {
-    font-family: "NotoSansKR";
-    src: url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap") format("woff");
-    font-style: normal;
-}
-
-html {
-    color: var(--fg);
-    background: var(--bg);
-}
-
-body {
-    margin: 0;
-    font-size: 16px;
-    overflow-x: hidden;
-}
-
-code {
-    font-family: "Source Code Pro", Consolas, "Ubuntu Mono", Menlo, "DejaVu Sans Mono", monospace, monospace !important;
-    font-size: 14px;
-    border-radius: 6px;
-}
-
-h1 code, h2 code, h3 code, h4 code, h5 code, h6 code {
-    font-size: unset;
-}
-
-h2, h3 {
-    margin-top: 2.5em;
-}
-
-h4, h5 {
-    margin-top: 2em;
-}
-
-.header + .header h3,
-.header + .header h4,
-.header + .header h5 {
-    margin-top: 1em;
-}
-
-h1 a.header:target::before,
-h2 a.header:target::before,
-h3 a.header:target::before,
-h4 a.header:target::before {
-    display: inline-block;
-    content: "»";
-    margin-left: -30px;
-    width: 30px;
-}
-
-h1 a.header:target,
-h2 a.header:target,
-h3 a.header:target,
-h4 a.header:target {
-    scroll-margin-top: calc(var(--top-bar-height) + 0.5em);
-}
-
-.content a:link,
-a:visited,
-a > .hljs {
-    color: var(--link);
-    text-decoration: none;
-}
-
-.page-wrap {
-    outline: 0;
-    padding: 0 var(--page-padding);
-    box-sizing: border-box;
-}
-
-.content {
-    margin-top: var(--top-bar-height);
-}
-
 .top-bar {
     margin: 0;
     padding: 4px;
     width: 100%;
     height: var(--top-bar-height);
-    position: absolute;
+    position: sticky;
     top: 0;
+    left: 0;
+    border-top: 5px solid var(--point);
+    border-bottom: 1px solid var(--darken-fg);
+    background: var(--bg);
+    z-index: 1001;
+    box-sizing: border-box;
+}
+
+.page {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.page-wrap {
+    outline: 0;
+    padding: 0 calc(var(--page-padding) + 10px);
+    margin-top: calc(0 - var(--top-bar-height));
 }
 
 .content-wrap {
@@ -107,50 +50,6 @@ a > .hljs {
     max-width: 100%;
     width: var(--content-max-width);
     margin: 0 0 50px;
-}
-
-main p {
-    line-height: 1.45em;
-}
-
-main ol {
-    line-height: 1.45em;
-    padding-left: 1em;
-}
-
-main ol ol {
-    padding-left: 1em;
-}
-
-main ul {
-    line-height: 1.45em;
-    padding-left: 1em;
-}
-
-main ul ul {
-    padding-left: 1em;
-}
-
-main a {
-    text-decoration: none;
-}
-
-main a:hover {
-    text-decoration: underline;
-}
-
-main img {
-    max-width: 100%;
-}
-
-main .header:link,
-main .header:visited {
-    color: var(--fg);
-}
-
-main .header:link,
-main .header:visited:hover {
-    text-decoration: none;
 }
 
 .toc {
@@ -213,6 +112,15 @@ main .header:visited:hover {
 .mobile-info p {
     margin: 5px 0 0;
     font-size: small;
+}
+
+.contributors {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.contributors img {
+    border-radius: 50%;
 }
 
 .contributors a {
@@ -285,8 +193,8 @@ main .header:visited:hover {
     margin: 10px 0 0 6px;
 }
 
-@media only screen and (max-width: 800px) {
-    .content .sidebar-wrap {
+@media only screen and (max-width: 850px) {
+    .sidebar-wrap {
         display: none !important;
     }
 
@@ -295,7 +203,7 @@ main .header:visited:hover {
     }
 }
 
-@media only screen and (min-width: 800px) {
+@media only screen and (min-width: 850px) {
     .mobile-info {
         display: none !important;
     }

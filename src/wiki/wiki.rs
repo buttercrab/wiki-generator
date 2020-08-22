@@ -31,7 +31,7 @@ impl Wiki {
             } else {
                 files.push(File::new(file, &src_dir, &out_dir, &config.wiki.preserve));
                 file_map.insert(
-                    path::path_to_str(&files.last().unwrap().from.strip_prefix(&src_dir).unwrap()),
+                    path::path_to_str(&files.last().unwrap().from),
                     path::path_to_str(&files.last().unwrap().to.strip_prefix(&out_dir).unwrap()),
                 );
             }
@@ -85,7 +85,13 @@ impl Wiki {
         }
 
         for page in self.pages.iter() {
-            page.render(&self.config, &handlebars, data.clone());
+            page.render(
+                &self.config,
+                &handlebars,
+                data.clone(),
+                &self.file_map,
+                &titles,
+            );
         }
 
         let out_dir = PathBuf::from(self.config.wiki.out.clone().unwrap_or("public".to_string()));

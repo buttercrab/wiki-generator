@@ -2,10 +2,23 @@
 <html lang="ko" class="dark">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{#if author}}
+        <meta name="author" content="{{ author }}">
+    {{/if}}
+    {{#if description}}
+        <meta name="description" content="{{ description }}">
+        <meta property="og:description" content="{{ description }}"/>
+    {{/if}}
+    <meta property="og:title" content="{{ title }}"/>
     <title>{{ title }}</title>
     <link rel="stylesheet" href="/r/css/style.css">
+    <link rel="stylesheet" href="/r/css/content.css">
     <link rel="stylesheet" href="/r/css/variable.css">
-    <link rel="stylesheet" href="/r/css/androidstudio.min.css">
+    <link rel="stylesheet" href="/r/css/tomorrow-night.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap">
     <script>
         function addOnload(fun) {
             let last = window.onload;
@@ -17,53 +30,56 @@
     </script>
 </head>
 <body>
-<div class="page-wrap">
+<div class="page">
     <div class="top-bar">
         <div class="top-bar-wrap">
-
+            {{ wiki_title }}
         </div>
     </div>
-    <div class="content">
-        <div class="content-wrap">
-            <div class="main-wrap">
-                <div class="mobile-info">
-                    <div class="github-link">
-                        <!-- :github-edit: -->
-                        <!-- :github-history: -->
-                        <!-- :view-in-github-mobile: -->
-                        <!-- :github-make-issue-mobile: -->
-                        <!-- :github-view-issue-mobile: -->
+    <div class="page-wrap">
+        <div class="content">
+            <div class="content-wrap">
+                <div class="main-wrap">
+                    <div class="mobile-info">
+                        <div class="github-link">
+                            {{{ github_edit }}}
+                            {{{ github_history }}}
+                            {{{ view_in_github_mobile }}}
+                            {{{ github_make_issue_mobile }}}
+                            {{{ github_view_issue_mobile }}}
+                        </div>
+                        <p>{{ time }}</p>
+                        <div class="contributors">
+                            <!-- :github-contributors: -->
+                            {{{ github_contributors }}}
+                        </div>
                     </div>
-                    <p><!-- :time: --></p>
-                    <div class="contributors">
-                        <!-- :github-contributors: -->
-                    </div>
+                    <main>
+                        {{{ content }}}
+                    </main>
                 </div>
-                <main>
-                    {{{ content }}}
-                </main>
-            </div>
 
-            <div class="sidebar-wrap">
-                <nav class="toc">
-                    <!-- :toc: -->
-                </nav>
-                <svg class="toc-marker" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
-                    <path id="toc-path" stroke-width="2" fill="transparent" stroke-dasharray="0, 0, 0, 1000"
-                          stroke-linecap="round" stroke-linejoin="round" transform="translate(-0.5, -0.5)"/>
-                </svg>
-                <p>
-                    <!-- :time: -->
-                </p>
-                <div class="contributors">
-                    <!-- :github-contributors: -->
-                </div>
-                <div class="github-link">
-                    <!-- :github-edit: -->
-                    <!-- :github-history: -->
-                    <!-- :view-in-github: -->
-                    <!-- :github-make-issue: -->
-                    <!-- :github-view-issue: -->
+                <div class="sidebar-wrap">
+                    <nav class="toc">
+                        <!-- :toc: -->
+                    </nav>
+                    <svg class="toc-marker" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+                        <path id="toc-path" stroke-width="2" fill="transparent" stroke-dasharray="0, 0, 0, 1000"
+                              stroke-linecap="round" stroke-linejoin="round" transform="translate(-0.5, -0.5)"/>
+                    </svg>
+                    <p>
+                        {{ time }}
+                    </p>
+                    <div class="contributors">
+                        {{{ github_contributors }}}
+                    </div>
+                    <div class="github-link">
+                        {{{ github_edit }}}
+                        {{{ github_history }}}
+                        {{{ view_in_github }}}
+                        {{{ github_make_issue }}}
+                        {{{ github_view_issue }}}
+                    </div>
                 </div>
             </div>
         </div>
@@ -72,6 +88,8 @@
 <script type="text/javascript" src="/r/js/wiki.js"></script>
 <script src="/r/js/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 {{#if google_analytics}}
     <!-- Google Analytics -->
     <script>

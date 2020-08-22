@@ -1,0 +1,199 @@
+@import 'variable.css';
+
+html {
+    font-family: "Open Sans", sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+}
+
+body {
+    margin: 0;
+    font-size: 16px;
+    overflow-x: hidden;
+}
+
+@font-face{
+    font-family: 'JetBrains Mono';
+    src: url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/web/eot/JetBrainsMono-Regular.eot') format('embedded-opentype'),
+    url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/web/woff2/JetBrainsMono-Regular.woff2') format('woff2'),
+    url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/web/woff/JetBrainsMono-Regular.woff') format('woff'),
+    url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/ttf/JetBrainsMono-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    -webkit-font-feature-settings: "liga" on, "calt" on;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+code {
+    background: var(--bg) !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 14px;
+    border-radius: 3px;
+    padding: 1px 3px;
+    margin: 0 2px;
+    border: 1px solid var(--darken-fg);
+}
+
+h1 code, h2 code, h3 code, h4 code, h5 code, h6 code {
+    font-size: unset;
+}
+
+pre {
+    overflow-x: auto;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+}
+
+h2, h3 {
+    margin-top: 2.5em;
+}
+
+h4, h5 {
+    margin-top: 2em;
+}
+
+h5, h6 {
+    font-size: 16px;
+}
+
+.header + .header h3,
+.header + .header h4,
+.header + .header h5 {
+    margin-top: 1em;
+}
+
+h1 a.header:target::before,
+h2 a.header:target::before,
+h3 a.header:target::before,
+h4 a.header:target::before {
+    display: inline-block;
+    content: "»";
+    margin-left: -30px;
+    width: 30px;
+}
+
+h1 a.header:target,
+h2 a.header:target,
+h3 a.header:target,
+h4 a.header:target {
+    scroll-margin-top: calc(var(--top-bar-height) + 0.5em);
+}
+
+.content a:link,
+a:visited,
+a > .hljs {
+    color: var(--link);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline !important;
+}
+
+.no-link {
+    color: #da6060;
+}
+
+.outer {
+    color: var(--outer-link) !important;
+    background-image: url("/r/img/link-dark.svg");
+    background-repeat: no-repeat;
+    background-position: center right;
+    padding-right: 14px;
+    margin-right: 6px;
+}
+
+main p {
+    line-height: 1.45em;
+}
+
+main ol {
+    line-height: 1.45em;
+    padding-left: 1em;
+}
+
+main ol ol {
+    padding-left: 1.5em;
+}
+
+main ul {
+    line-height: 1.45em;
+    padding-left: 1.5em;
+}
+
+main ul ul {
+    padding-left: 1em;
+}
+
+main a {
+    text-decoration: none;
+}
+
+main a:hover {
+    text-decoration: underline;
+}
+
+main img {
+    margin: 20px auto 20px 0;
+    max-width: 60%;
+}
+
+main .header:link,
+main .header:visited {
+    color: var(--fg);
+}
+
+main .header:link,
+main .header:visited:hover {
+    text-decoration: none;
+}
+
+table {
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+
+table td {
+    padding: 3px 20px;
+    border: 1px var(--table-border-color) solid;
+}
+
+table thead {
+    background: var(--table-header-bg);
+}
+
+table thead td {
+    font-weight: 700;
+    border: none;
+}
+
+table thead th {
+    padding: 3px 20px;
+}
+
+table thead tr {
+    border: 1px var(--table-header-bg) solid;
+}
+
+/* Alternate background colors for rows */
+table tbody tr:nth-child(2n) {
+    background: var(--table-alternate-bg);
+}
+
+blockquote {
+    margin: 20px 0;
+    padding: 0 20px;
+    color: var(--fg);
+    background-color: var(--quote-bg);
+    border-left: 3px solid var(--quote-side);
+    border-bottom: 1px solid var(--darken-fg);
+    border-top: 1px solid var(--darken-fg);
+    border-right: 1px solid var(--darken-fg);
+}

@@ -1,11 +1,13 @@
 use crate::config::config::Config;
 use crate::renderer::markdown;
-use crate::renderer::postprocess::{add_github_things, fix_header};
+use crate::renderer::postprocess::{fix_header, fix_link};
 use crate::util::path;
 use handlebars::Handlebars;
+use std::collections::{HashMap, HashSet};
 use std::ffi::OsStr;
-use std::fs;
+use std::io::Write;
 use std::path::{Path, PathBuf};
+use std::{fs, io};
 
 pub struct Page {
     from: PathBuf,
@@ -54,7 +56,6 @@ impl Page {
         let content =
             fs::read_to_string(&self.from).expect(&*format!("reading from {:?} failed", self.from));
         let content = markdown::cmark_to_html(content);
-        let content = markdown::fix_markdown(content);
 
         self.title =
             markdown::get_title(&content).expect(&*format!("Title not found in {:?}", self.from));
@@ -70,32 +71,91 @@ impl Page {
         config: &Config,
         handlebars: &Handlebars,
         mut data: serde_json::Map<String, serde_json::Value>,
+        file_map: &HashMap<String, String>,
+        titles: &HashSet<String>,
     ) {
+        print!("Rendering {:?} ...", self.from);
+        io::stdout().flush().unwrap();
+
         let content =
             fs::read_to_string(&self.temp).expect(&*format!("reading from {:?} failed", self.temp));
 
-        data.insert("content".to_owned(), json!(content));
+        let content = fix_link(content, &self.from, file_map, titles);
+
+        data.insert("content".to_string(), json!(content));
+
         data.insert(
-            "title".to_owned(),
+            "title".to_string(),
             json!(format!("{} - {}", self.title, config.wiki.title)),
         );
-
-        let html = handlebars
-            .render("index.hbs", &data)
-            .expect(&*format!("render {:?} failed", self.from));
 
         let github_url = match &config.html {
             Some(h) => &h.github,
             None => &None,
         };
 
+        match github_url {
+            Some(github_url) => {
+                data.insert(
+                    "time".to_string(),
+                    json!(format!(
+                        "최근 수정 시각: {}",
+                        markdown::get_time(&self.from)
+                    )),
+                );
+                data.insert(
+                    "github_contributors".to_string(),
+                    json!(markdown::get_contributors_html(&self.from, github_url)),
+                );
+                data.insert(
+                    "github_history".to_string(),
+                    json!(markdown::get_github_history(&self.from, github_url)),
+                );
+                data.insert(
+                    "github_edit".to_string(),
+                    json!(markdown::get_github_edit(&self.from, github_url)),
+                );
+                data.insert(
+                    "github_view_issue".to_string(),
+                    json!(markdown::get_github_view_issue(github_url, &self.title)),
+                );
+                data.insert(
+                    "github_make_issue".to_string(),
+                    json!(markdown::get_github_make_issue(github_url, &self.title)),
+                );
+                data.insert(
+                    "view_in_github".to_string(),
+                    json!(markdown::get_view_in_github(&self.from, github_url)),
+                );
+                data.insert(
+                    "view_in_github_mobile".to_string(),
+                    json!(markdown::get_view_in_github_mobile(&self.from, github_url)),
+                );
+                data.insert(
+                    "github_make_issue_mobile".to_string(),
+                    json!(markdown::get_github_make_issue_mobile(
+                        github_url,
+                        &self.title
+                    )),
+                );
+                data.insert(
+                    "github_view_issue_mobile".to_string(),
+                    json!(markdown::get_view_in_github_mobile(github_url, &self.title)),
+                );
+            }
+            None => {}
+        }
+
+        let html = handlebars
+            .render("index.hbs", &data)
+            .expect(&*format!("render {:?} failed", self.from));
+
         let html = fix_header(html);
-        let html = add_github_things(html, github_url, &self.from);
 
         path::make_dir_above(&self.to);
         fs::write(&self.to, html).expect(&*format!("writing to {:?} failed", self.to));
 
-        println!("Rendered {:?}", self.from);
+        println!(" done");
     }
 }
 

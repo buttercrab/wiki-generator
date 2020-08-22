@@ -28,3 +28,23 @@ pub fn path_to_str<P: AsRef<Path>>(path: P) -> String {
         .into_string()
         .unwrap()
 }
+
+pub fn simplify<P: AsRef<Path>>(path: P) -> PathBuf {
+    let path = path.as_ref();
+    let mut res = PathBuf::new();
+
+    for i in path.iter() {
+        res = if i == OsStr::new("..") {
+            match res.parent() {
+                Some(p) => p.to_path_buf(),
+                None => res,
+            }
+        } else if i != OsStr::new(".") {
+            res.join(i)
+        } else {
+            res
+        }
+    }
+
+    res
+}

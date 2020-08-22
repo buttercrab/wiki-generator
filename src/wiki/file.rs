@@ -28,7 +28,7 @@ impl File {
         let (is_img, ext) = match from.extension() {
             Some(ext) => {
                 let ext = path::os_to_str(ext);
-                (IMG_LIST.contains(&&*ext), ext)
+                (IMG_LIST.contains(&&*ext.to_ascii_lowercase()), ext)
             }
             None => (false, "".to_string()),
         };
@@ -36,9 +36,9 @@ impl File {
         debug_assert!(!EXCLUDE.contains(&&*ext));
 
         let preserve = match preserve {
-            Some(preserve) => {
-                preserve.contains(&path::path_to_str(from.strip_prefix(&src).unwrap()))
-            }
+            Some(preserve) => preserve.contains(
+                &path::path_to_str(from.strip_prefix(&src).unwrap()).to_ascii_lowercase(),
+            ),
             None => false,
         };
 
@@ -70,7 +70,7 @@ impl File {
     }
 
     pub fn copy(&self) {
-        path::make_dir_above(&self.from);
+        path::make_dir_above(&self.to);
         fs::copy(&self.from, &self.to).expect(&*format!("failed to move {:?}", self.from));
     }
 }
