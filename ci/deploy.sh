@@ -5,7 +5,7 @@ cargo build --release
 cd target/release
 
 bin="wiki-generator-$1.tar.gz"
-tar czf ../../"$bin" mdbook
+tar czf ../../"$bin" wiki-generator
 
 cd ../..
 
