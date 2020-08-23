@@ -1,5 +1,11 @@
 @import 'variable.css';
 
+.page {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 .top-bar {
     margin: 0;
     padding: 4px;
@@ -15,19 +21,13 @@
     box-sizing: border-box;
 }
 
-.page {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 .page-wrap {
     outline: 0;
     padding: 0 calc(var(--page-padding) + 10px);
     margin-top: calc(0 - var(--top-bar-height));
 }
 
-.content-wrap {
+.content {
     margin-left: auto;
     margin-right: auto;
     display: flex;
@@ -36,7 +36,7 @@
     width: calc(var(--right-bar-width) + var(--content-max-width) + 30px);
 }
 
-.content-wrap .sidebar-wrap {
+.sidebar-wrap {
     width: var(--right-bar-width);
     height: calc(100vh - 30px - var(--top-bar-height));
     position: -webkit-sticky;
@@ -46,7 +46,34 @@
     margin-right: 0;
 }
 
-.content-wrap main {
+.mobile-info {
+    text-align: right;
+}
+
+.mobile-info p {
+    margin: 5px 0 0;
+    font-size: small;
+}
+
+.mobile-info .github-link {
+    justify-content: flex-end;
+}
+
+.mobile-info .github-link .link-button,
+.mobile-info .github-link .link-button:active,
+.mobile-info .github-link .link-button:visited {
+    margin: 10px 0 0 6px;
+}
+
+.mobile-info .github-link .link-button:hover {
+    margin: 10px 0 0 6px;
+}
+
+.mobile-info .contributors {
+    justify-content: flex-end;
+}
+
+main {
     max-width: 100%;
     width: var(--content-max-width);
     margin: 0 0 50px;
@@ -109,11 +136,6 @@
     font-size: small;
 }
 
-.mobile-info p {
-    margin: 5px 0 0;
-    font-size: small;
-}
-
 .contributors {
     display: flex;
     flex-wrap: wrap;
@@ -137,11 +159,6 @@
 .contributors .description span {
     font-size: small;
 }
-
-.mobile-info .contributors {
-    justify-content: flex-end;
-}
-
 
 .github-link {
     display: flex;
@@ -175,30 +192,12 @@
     transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.mobile-info {
-    text-align: right;
-}
-
-.mobile-info .github-link {
-    justify-content: flex-end;
-}
-
-.mobile-info .github-link .link-button,
-.mobile-info .github-link .link-button:active,
-.mobile-info .github-link .link-button:visited {
-    margin: 10px 0 0 6px;
-}
-
-.mobile-info .github-link .link-button:hover {
-    margin: 10px 0 0 6px;
-}
-
 @media only screen and (max-width: 850px) {
     .sidebar-wrap {
         display: none !important;
     }
 
-    .content main {
+    main, .main-wrap {
         width: 100%;
     }
 }

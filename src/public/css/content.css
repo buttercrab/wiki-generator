@@ -1,18 +1,6 @@
 @import 'variable.css';
 
-html {
-    font-family: "Open Sans", sans-serif;
-    color: var(--fg);
-    background: var(--bg);
-}
-
-body {
-    margin: 0;
-    font-size: 16px;
-    overflow-x: hidden;
-}
-
-@font-face{
+@font-face {
     font-family: 'JetBrains Mono';
     src: url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/web/eot/JetBrainsMono-Regular.eot') format('embedded-opentype'),
     url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/web/woff2/JetBrainsMono-Regular.woff2') format('woff2'),
@@ -26,6 +14,18 @@ body {
     -webkit-font-feature-settings: "liga" on, "calt" on;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+}
+
+html {
+    font-family: "Open Sans", sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+}
+
+body {
+    margin: 0;
+    font-size: 16px;
+    overflow-x: hidden;
 }
 
 code {
@@ -69,36 +69,34 @@ h5, h6 {
     margin-top: 1em;
 }
 
-h1 a.header:target::before,
-h2 a.header:target::before,
-h3 a.header:target::before,
-h4 a.header:target::before {
+a.header:target::before {
     display: inline-block;
     content: "»";
     margin-left: -30px;
     width: 30px;
 }
 
-h1 a.header:target,
-h2 a.header:target,
-h3 a.header:target,
-h4 a.header:target {
+a.header:target {
     scroll-margin-top: calc(var(--top-bar-height) + 0.5em);
 }
 
-.content a:link,
-a:visited,
-a > .hljs {
+main a:link,
+main a:visited,
+main a:active,
+main a > .hljs {
     color: var(--link);
+}
+
+.content a {
     text-decoration: none;
 }
 
-a:hover {
-    text-decoration: underline !important;
+main a:hover {
+    text-decoration: underline;
 }
 
 .no-link {
-    color: #da6060;
+    color: #da6060 !important;
 }
 
 .outer {
@@ -132,10 +130,6 @@ main ul ul {
     padding-left: 1em;
 }
 
-main a {
-    text-decoration: none;
-}
-
 main a:hover {
     text-decoration: underline;
 }
@@ -150,6 +144,7 @@ main .header:visited {
     color: var(--fg);
 }
 
+main .header:hover,
 main .header:link,
 main .header:visited:hover {
     text-decoration: none;
@@ -158,15 +153,17 @@ main .header:visited:hover {
 table {
     margin: 0 auto;
     border-collapse: collapse;
+    box-sizing: border-box;
 }
 
 table td {
     padding: 3px 20px;
-    border: 1px var(--table-border-color) solid;
+    border: 1px var(--fg) solid;
 }
 
 table thead {
-    background: var(--table-header-bg);
+    background: var(--fg);
+    color: var(--bg);
 }
 
 table thead td {
@@ -176,15 +173,11 @@ table thead td {
 
 table thead th {
     padding: 3px 20px;
+    border-right: 1px var(--bg) solid;
 }
 
-table thead tr {
-    border: 1px var(--table-header-bg) solid;
-}
-
-/* Alternate background colors for rows */
-table tbody tr:nth-child(2n) {
-    background: var(--table-alternate-bg);
+table thead th:last-child {
+    border-right: 1px var(--fg) solid;
 }
 
 blockquote {

@@ -140,7 +140,10 @@ impl Page {
                 );
                 data.insert(
                     "github_view_issue_mobile".to_string(),
-                    json!(markdown::get_view_in_github_mobile(github_url, &self.title)),
+                    json!(markdown::get_github_view_issue_mobile(
+                        github_url,
+                        &self.title
+                    )),
                 );
             }
             None => {}
