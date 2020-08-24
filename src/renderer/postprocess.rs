@@ -181,28 +181,69 @@ pub fn fix_link<S: AsRef<str>, P: AsRef<Path>>(
     let html = Regex::new(r"\[\[ +(.+?) +]]")
         .unwrap()
         .replace_all(&*html, |caps: &Captures<'_>| {
-            let title = caps[1]
-                .to_string()
-                .replace(r"\\", r"\")
-                .replace(r"\[", r"[")
-                .replace(r"\]", r"]");
+            let title = caps[1].to_string();
+
+            let mut s = String::new();
+            let mut t = String::new();
+            let mut esc = false;
+            for i in title.chars() {
+                match i {
+                    '\\' => {
+                        if esc {
+                            s.push('\\');
+                            esc = false;
+                        } else {
+                            esc = true;
+                        }
+                    }
+                    '[' => {
+                        if esc {
+                            s.push('[');
+                            esc = false;
+                        }
+                    }
+                    ']' => {
+                        if esc {
+                            s.push(']');
+                            esc = false;
+                        }
+                    }
+                    '|' => {
+                        if esc {
+                            s.push('|');
+                            esc = false;
+                        } else {
+                            t = s;
+                            s = String::new();
+                        }
+                    }
+                    c => s.push(c),
+                }
+            }
+            let title = s;
 
             let url = Url::parse(&*format!("https://example.com/w/{}", title))
                 .unwrap()
                 .into_string();
             let href = url.trim_start_matches("https://example.com");
+            let l = title.find('#');
+            let title_without_loc = if let Some(l) = l {
+                title[..l].to_string()
+            } else {
+                title.clone()
+            };
+            if t.is_empty() {
+                t = title.clone();
+            }
+            let title_without_loc = string::unescape_html(title_without_loc);
 
-            if titles.contains(&*title) {
-                format!(
-                    r##"<a href="{href}">{title}</a>"##,
-                    href = href,
-                    title = title
-                )
+            if titles.contains(&title_without_loc) {
+                format!(r##"<a href="{href}">{title}</a>"##, href = href, title = t)
             } else {
                 format!(
                     r##"<a class="no-link" href="{href}">{title}</a>"##,
                     href = href,
-                    title = title
+                    title = t
                 )
             }
         })
@@ -269,11 +310,11 @@ pub fn fix_footnotes<S: AsRef<str>>(html: S) -> String {
     let html = Regex::new(
         r##"(<div class="footnote-definition" id=")(.*?)("><sup class="footnote-definition-label">)(.*?)</sup>([\s\S]*?)</div>"##,
     )
-    .unwrap()
-    .replace_all(html, |caps: &Captures<'_>| {
-        format!(r##"{}f-{id}{}<a href="#b-{id}">{}</a></sup>{}</div>"##, &caps[1], &caps[3], &caps[4], &caps[5], id = &caps[2])
-    })
-    .to_string();
+        .unwrap()
+        .replace_all(html, |caps: &Captures<'_>| {
+            format!(r##"{}f-{id}{}<a href="#b-{id}">{}</a></sup>{}</div>"##, &caps[1], &caps[3], &caps[4], &caps[5], id = &caps[2])
+        })
+        .to_string();
 
     let html =
         Regex::new(r##"(<sup class="footnote-reference"><a href="#)(.*?)">([\s\S]*?)</a></sup>"##)

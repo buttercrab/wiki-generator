@@ -15,6 +15,7 @@ pub struct Wiki {
     pub(crate) src: Option<String>,
     pub(crate) out: Option<String>,
     pub(crate) preserve: Option<Vec<String>>,
+    pub(crate) main: Option<String>,
 }
 
 #[derive(Deserialize)]

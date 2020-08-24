@@ -13,6 +13,7 @@ pub struct Page {
     from: PathBuf,
     temp: PathBuf,
     to: PathBuf,
+    preserve: bool,
     pub(crate) title: String,
 }
 
@@ -24,7 +25,12 @@ impl Page {
     /// example:
     ///   "src/hello.md" -> "public/w/hello/index.html"
     ///   "src/world/index.md" -> "public/w/world/index.html"
-    pub fn new<P: AsRef<Path>, Q: AsRef<Path>, R: AsRef<Path>>(from: P, src: Q, out: R) -> Page {
+    pub fn new<P: AsRef<Path>, Q: AsRef<Path>, R: AsRef<Path>>(
+        from: P,
+        src: Q,
+        out: R,
+        preserve: &Option<Vec<String>>,
+    ) -> Page {
         let from = from.as_ref();
         let src = src.as_ref();
         let out = out.as_ref();
@@ -34,6 +40,13 @@ impl Page {
             "md"
         );
 
+        let preserve = match preserve {
+            Some(preserve) => preserve.contains(
+                &path::path_to_str(from.strip_prefix(&src).unwrap()).to_ascii_lowercase(),
+            ),
+            None => false,
+        };
+
         let mut file_name = from.strip_prefix(src).unwrap().with_extension("");
         if path::os_to_str(file_name.file_stem().unwrap_or(OsStr::new(""))) == "index" {
             file_name = file_name.parent().unwrap().to_path_buf();
@@ -41,12 +54,17 @@ impl Page {
         let file_name = file_name.join("index.html");
 
         let temp = Path::new(out).join("t").join(&file_name);
-        let to = Path::new(out).join("w");
+        let to = if preserve {
+            Path::new(out).join(from.strip_prefix(src).unwrap())
+        } else {
+            Path::new(out).join("w")
+        };
 
         Page {
             from: from.to_path_buf(),
             temp,
             to,
+            preserve,
             title: "".to_string(),
         }
     }
@@ -59,7 +77,9 @@ impl Page {
 
         self.title =
             markdown::get_title(&content).expect(&*format!("Title not found in {:?}", self.from));
-        self.to = self.to.join(&self.title).join("index.html");
+        if !self.preserve {
+            self.to = self.to.join(&self.title).join("index.html");
+        }
 
         path::make_dir_above(&self.temp);
         fs::write(&self.temp, &content).expect(&*format!("writing to {:?} failed", self.temp));
@@ -115,19 +135,19 @@ mod tests {
 
     #[test]
     fn page_new_path_test() {
-        let page = Page::new("src/index.md", "src", "public");
+        let page = Page::new("src/index.md", "src", "public", &None);
         assert_eq!(path::path_to_str(page.temp), "public/t/index.html");
 
-        let page = Page::new("src/index/index.md", "src", "public");
+        let page = Page::new("src/index/index.md", "src", "public", &None);
         assert_eq!(path::path_to_str(page.temp), "public/t/index/index.html");
 
-        let page = Page::new("src/hello/index.md", "src", "public");
+        let page = Page::new("src/hello/index.md", "src", "public", &None);
         assert_eq!(path::path_to_str(page.temp), "public/t/hello/index.html");
 
-        let page = Page::new("src/hello.md", "src", "public");
+        let page = Page::new("src/hello.md", "src", "public", &None);
         assert_eq!(path::path_to_str(page.temp), "public/t/hello/index.html");
 
-        let page = Page::new("src/hello/world.md", "src", "public");
+        let page = Page::new("src/hello/world.md", "src", "public", &None);
         assert_eq!(
             path::path_to_str(page.temp),
             "public/t/hello/world/index.html"

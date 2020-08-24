@@ -2,6 +2,7 @@ use std::fs;
 use std::path::Path;
 
 pub static INDEX_HBS: &[u8] = include_bytes!("index.hbs");
+pub static REDIRECT_HBS: &[u8] = include_bytes!("redirect.hbs");
 
 pub static STYLE_CSS: &[u8] = include_bytes!("css/style.css");
 pub static CONTENT_CSS: &[u8] = include_bytes!("css/content.css");

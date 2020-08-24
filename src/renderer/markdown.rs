@@ -1,4 +1,4 @@
-use crate::util::path;
+use crate::util::{path, string};
 use chrono::{Datelike, Timelike};
 use pulldown_cmark::{html, Options, Parser};
 use regex::Regex;
@@ -32,7 +32,7 @@ pub fn get_title<S: AsRef<str>>(content: S) -> Option<String> {
     if title.len() != 1 {
         None
     } else {
-        Some(title[0][1].to_string())
+        Some(string::unescape_html(title[0][1].to_string()))
     }
 }
 

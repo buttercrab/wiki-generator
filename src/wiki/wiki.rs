@@ -27,7 +27,7 @@ impl Wiki {
 
         for file in file_list.iter() {
             if path::os_to_str(file.extension().unwrap_or(OsStr::new(""))) == "md" {
-                pages.push(Page::new(file, &src_dir, &out_dir));
+                pages.push(Page::new(file, &src_dir, &out_dir, &config.wiki.preserve));
             } else {
                 files.push(File::new(file, &src_dir, &out_dir, &config.wiki.preserve));
                 file_map.insert(
@@ -65,6 +65,12 @@ impl Wiki {
         handlebars
             .register_template_string("index.hbs", str::from_utf8(public::INDEX_HBS).unwrap())
             .unwrap();
+        handlebars
+            .register_template_string(
+                "redirect.hbs",
+                str::from_utf8(public::REDIRECT_HBS).unwrap(),
+            )
+            .unwrap();
 
         let mut data = serde_json::Map::new();
         if let Some(h) = &self.config.html {
@@ -79,6 +85,15 @@ impl Wiki {
 
         if let Some(d) = &self.config.wiki.description {
             data.insert("description".to_string(), json!(d));
+        }
+
+        if let Some(m) = &self.config.wiki.main {
+            let mut data = serde_json::Map::new();
+            data.insert("url".to_string(), json!(format!("/w/{}", m)));
+            let html = handlebars.render("redirect.hbs", &data).unwrap();
+            let out_dir =
+                PathBuf::from(&self.config.wiki.out.clone().unwrap_or("public".to_string()));
+            fs::write(out_dir.join("index.html"), html).expect("failed to write index.html");
         }
 
         for page in self.pages.iter() {
