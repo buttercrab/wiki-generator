@@ -164,6 +164,8 @@ table {
     margin: 0 auto;
     border-collapse: collapse;
     box-sizing: border-box;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
 }
 
 table td {

@@ -178,76 +178,102 @@ pub fn fix_link<S: AsRef<str>, P: AsRef<Path>>(
         })
         .to_string();
 
-    let html = Regex::new(r"\[\[ +(.+?) +]]")
-        .unwrap()
-        .replace_all(&*html, |caps: &Captures<'_>| {
-            let title = caps[1].to_string();
-
-            let mut s = String::new();
-            let mut t = String::new();
-            let mut esc = false;
-            for i in title.chars() {
-                match i {
-                    '\\' => {
-                        if esc {
-                            s.push('\\');
-                            esc = false;
-                        } else {
-                            esc = true;
-                        }
-                    }
-                    '[' => {
-                        if esc {
-                            s.push('[');
-                            esc = false;
-                        }
-                    }
-                    ']' => {
-                        if esc {
-                            s.push(']');
-                            esc = false;
-                        }
-                    }
-                    '|' => {
-                        if esc {
-                            s.push('|');
-                            esc = false;
-                        } else {
-                            t = s;
-                            s = String::new();
-                        }
-                    }
-                    c => s.push(c),
-                }
-            }
-            let title = s;
-
-            let url = Url::parse(&*format!("https://example.com/w/{}", title))
+    let rep = |html: String, s: usize, e: usize| -> String {
+        if s != e {
+            let tmp = Regex::new(r"\[\[ +(.+?) +]]")
                 .unwrap()
-                .into_string();
-            let href = url.trim_start_matches("https://example.com");
-            let l = title.find('#');
-            let title_without_loc = if let Some(l) = l {
-                title[..l].to_string()
-            } else {
-                title.clone()
-            };
-            if t.is_empty() {
-                t = title.clone();
-            }
-            let title_without_loc = string::unescape_html(title_without_loc);
+                .replace_all(&html[s..e], |caps: &Captures<'_>| {
+                    let title = caps[1].to_string();
 
-            if titles.contains(&title_without_loc) {
-                format!(r##"<a href="{href}">{title}</a>"##, href = href, title = t)
-            } else {
-                format!(
-                    r##"<a class="no-link" href="{href}">{title}</a>"##,
-                    href = href,
-                    title = t
-                )
-            }
-        })
-        .to_string();
+                    let mut s = String::new();
+                    let mut t = String::new();
+                    let mut esc = false;
+                    for i in title.chars() {
+                        match i {
+                            '\\' => {
+                                if esc {
+                                    s.push('\\');
+                                    esc = false;
+                                } else {
+                                    esc = true;
+                                }
+                            }
+                            '[' => {
+                                if esc {
+                                    s.push('[');
+                                    esc = false;
+                                }
+                            }
+                            ']' => {
+                                if esc {
+                                    s.push(']');
+                                    esc = false;
+                                }
+                            }
+                            '|' => {
+                                if esc {
+                                    s.push('|');
+                                    esc = false;
+                                } else {
+                                    t = s;
+                                    s = String::new();
+                                }
+                            }
+                            c => s.push(c),
+                        }
+                    }
+                    let title = s;
+
+                    let url = Url::parse(&*format!("https://example.com/w/{}", title))
+                        .unwrap()
+                        .into_string();
+                    let href = url.trim_start_matches("https://example.com");
+                    let l = title.find('#');
+                    let title_without_loc = if let Some(l) = l {
+                        title[..l].to_string()
+                    } else {
+                        title.clone()
+                    };
+                    if t.is_empty() {
+                        t = title.clone();
+                    }
+                    let title_without_loc = string::unescape_html(title_without_loc);
+
+                    if titles.contains(&title_without_loc) {
+                        format!(r##"<a href="{href}">{title}</a>"##, href = href, title = t)
+                    } else {
+                        format!(
+                            r##"<a class="no-link" href="{href}">{title}</a>"##,
+                            href = href,
+                            title = t
+                        )
+                    }
+                })
+                .to_string();
+
+            format!("{}{}{}", &html[..s], tmp, &html[e..])
+        } else {
+            html
+        }
+    };
+
+    let mut idx = 0usize;
+    let mut range = Vec::new();
+
+    for m in Regex::new(r#"(?:<h1>[\s\S]*?</h1>|<code>[\s\S]*?</code>)"#)
+        .unwrap()
+        .find_iter(&*html)
+    {
+        range.push((idx, m.start()));
+        idx = m.end();
+    }
+
+    range.push((idx, html.len()));
+    let mut html = html;
+
+    for (s, e) in range.iter().rev() {
+        html = rep(html, *s, *e);
+    }
 
     html
 }

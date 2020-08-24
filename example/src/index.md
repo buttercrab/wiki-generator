@@ -1,218 +1,219 @@
-# Hello, World
-## h2 Heading
-### h3 Heading
-#### h4 Heading
-##### h5 Heading
-###### h6 Heading
+# iamcoder:문법
 
+## Markdown
 
-## Horizontal Rules
+IamCoder 위키는 기본적으로 마크다운 문법을 지원합니다. 
+**마크다운 문법 중 약간 변형된 것이 있으므로 주의하시기 바랍니다.**
 
-___
+마크다운 특성상 두 줄 엔터를 쳐야 문단이 나뉘지고 한 줄 엔터는 문장이 이어집니다. 
 
----
+## 제목 및 목차
 
-***
+제목은 `#`를 줄 앞에 붙이고 빈칸을 띕니다.
+**또한 제목은 문서에 한 번만 나와야 하며, 두 번 이상 나오거나 나오지 않으면 에러가 납니다.**
 
+각 문단에 소제목을 달고 싶으면 `#`의 개수는 늘려 2~6개 사이에서 작성해주세요.
+**번호 매김 및 목차는 자동으로 생성되므로 번호를 달지 마세요.**
 
-## Typographic replacements
+| 유형 | 입력 |
+|:-:|:-:|
+| 1 단계(제목) | `# 목차` |
+| 2 단계 | `## 목차` |
+| 3 단계 | `### 목차` |
+| 4 단계 | `#### 목차` |
+| 5 단계 | `##### 목차` |
+| 6 단계 | `###### 목차` |
 
-Enable typographer option to see result.
+## 텍스트 꾸밈
 
-(c) (C) (r) (R) (tm) (TM) (p) (P) +-
+기본적으로 마크다운이 지원하는 텍스트 꾸밈 문법을 사용할 수 있습니다. 
 
-test.. test... test..... test?..... test!....
+| 입력 | 출력 | 비고 |
+|:-:|:-:|:-:|
+| `*기울임*` | *기울임* | 붙여서 써도 *인식*됩니다. |
+| `_기울임_` | _기울임_ | 붙여서 쓰면 바뀌지 _않습_니다. |
+| `**굵게**` | **굵게** | 붙여서 써도 **인식**됩니다. |
+| `__굵게__` | __굵게__ | 붙여서 쓰면 바뀌지 __않습__니다. |
+| `***굵게 기울임***` | ***굵게 기울임*** | 위 4가지를 조합해서 쓰면 됩니다. |
+| `~~취소선~~` | ~~취소선~~ | |
+| `<u>밑줄</u>` | <u>밑줄</u> | HTML 문법입니다. |
 
-!!!!!! ???? ,,  -- ---
+## 수식
 
-"Smartypants, double quotes" and 'single quotes'
+수식은 [MathJax](https://www.mathjax.org/) 를 사용하여 렌더링됩니다. 
+\\(\LaTeX \\) 문법을 지원합니다.
 
+| 입력 | 출력 | 비고 |
+|:-:|:-:|:-:|
+| `\\( e^{\pi i} + 1 = 0 \\)` | \\( e^{\pi i} + 1 = 0 \\) | 인라인 수식 |
+| `\\( O(N^2) \\)` | \\( O(N^2) \\) | 인라인 수식 |
 
-## Emphasis
+한 줄 전체에 적고 싶으면 `\\(` 와 `\\)` 대신 `\\[` 와 `\\]` 또는 `$$` 와 `$$`를 쓰세요.
 
-**This is bold text**
+$$ e^{\pi i} + 1 = 0 $$
 
-__This is bold text__
+## 하이퍼링크
 
-*This is italic text*
+다른 문서나 외부로 링크를 걸 수 있습니다. 
+기본적인 마크다운 문법과 위키만의 문법이 있습니다.
 
-_This is italic text_
+| 입력 | 출력 | 비고 |
+|:-:|:-:|:-:|
+| `[경기과고](https://www.gs.hs.kr/)` | [경기과고](https://www.gs.hs.kr/) |  |
+| `[[ iamcoder:대문 ]]` | [[ iamcoder:대문 ]] |  |
 
-~~Strikethrough~~
+다른 문서의 제목을 입력하면 다른 문서로 갈 수 있습니다. 
+`[[` 와 `]]` 사이에 공백이 있어야 하고 제목에 `|`, `\`, `[`, `]`이 있으면 이를 `\|`, `\\`, `\[`, `\]`로 바꿔서 적어주세요.
+  
+## 코드
+  
+코드는 `` ```언어 `` 와 ``  ``` `` 사이에 작성하면 됩니다.
 
-<u>Underline</u>
+```markdown
+​```c++
+#include <stdio.h>
 
-
-## Blockquotes
-
-
-> Blockquotes can also be nested...
->> ...by using additional greater-than signs right next to each other...
-> > > ...or with spaces between arrows.
-
-
-## Lists
-
-Unordered
-
-+ Create a list by starting a line with `+`, `-`, or `*`
-+ Sub-lists are made by indenting 2 spaces:
-  - Marker character change forces new list start:
-    * Ac tristique libero volutpat at
-    + Facilisis in pretium nisl aliquet
-    - Nulla volutpat aliquam velit
-+ Very easy!
-
-Ordered
-
-1. Lorem ipsum dolor sit amet
-2. Consectetur adipiscing elit
-3. Integer molestie lorem at massa
-
-
-1. You can use sequential numbers...
-1. ...or keep all the numbers as `1.`
-
-Start numbering with offset:
-
-57. foo
-1. bar
-
-
-## Code
-
-Inline `code`
-
-Indented code
-
-    // Some comments
-    line 1 of code
-    line 2 of code
-    line 3 of code
-
-
-Block code "fences"
-
-```
-Sample text here...
+int main(){
+    printf("hello world");
+    return 0;
+}
+​```
 ```
 
-Syntax highlighting
+``` c++
+#include <stdio.h>
 
-``` js
-var foo = function (bar) {
-  return bar++;
-};
-
-console.log(foo(5));
+int main(){
+    printf("hello world");
+    return 0;
+}
 ```
 
-## Tables
+인라인 코드는 `` ` `` 와 `` ` `` 사이에 적으면 됩니다.
 
-| Option | Description |
-| ------ | ----------- |
-| data   | path to data files to supply the data that will be passed into templates. |
-| engine | engine to be used for processing templates. Handlebars is the default. |
-| ext    | extension to be used for dest files. |
+| 입력 | 출력 | 비고 |
+|:-:|:-:|:-:|
+| `` `코드` `` | `코드` |  |
 
-Right aligned columns
+## 인용
 
-| Option | Description |
-| ------:| -----------:|
-| data   | path to data files to supply the data that will be passed into templates. |
-| engine | engine to be used for processing templates. Handlebars is the default. |
-| ext    | extension to be used for dest files. |
+인용 표현은  `>`를 쓰면 됩니다. `>` 의 개수를 늘려 중복으로 사용할 수 있습니다.
+**인용 표현을 무분별하게 쓰지 말아주세요**
 
-
-## Links
-
-[link text](http://dev.nodeca.com)
-
-[link with title](http://nodeca.github.io/pica/demo/ "title text!")
-
-Autoconverted link https://github.com/nodeca/pica (enable linkify to see)
-
-
-## Plugins
-
-The killer feature of `markdown-it` is very effective support of
-[syntax plugins](https://www.npmjs.org/browse/keyword/markdown-it-plugin).
-
-
-### [Emojies](https://github.com/markdown-it/markdown-it-emoji)
-
-> Classic markup: :wink: :crush: :cry: :tear: :laughing: :yum:
+```markdown
+> hello 
 >
-> Shortcuts (emoticons): :-) :-( 8-) ;)
+> hello?
+>> world!
+>>> world
+```
 
-see [how to change output](https://github.com/markdown-it/markdown-it-emoji#change-output) with twemoji.
+> hello 
+>
+> hello?
+>> world!
+>>> world
+  
+## 목록
+
+목록은 `+`, `-`, `*` 세 가지 기호를 문장 앞에 쓰면 됩니다.
+들여쓰기를 하게 되면 들여써진 목록이 됩니다. 
+
+```markdown
+- hello
++ hello
+  * world
+  + world
+* hello
+```
+
+- hello
++ hello
+  * world
+  + world
+* hello
+
+다음과 같이 체크리스트를 만들 수 있습니다.
+
+```markdown
+- [ ] Hello
+- [x] World
+  - [x] Hello
+- [ ] World
+```
+
+- [ ] Hello
+- [x] World
+  - [x] Hello
+- [ ] World
+
+## 각주
+
+각주는 `[^숫자]`로 나타냅니다.[^1] 그 뒤, 파일 맨 아래에 `[^숫자]: 내용`과 같이 적어줍니다.
+
+## 표
+
+표는 깃허브와 같이 만들 수 있습니다.
+
+```markdown
+| 맨 위 | 맨 위 |
+|:-:|:---:|
+| 꼭 길이를 | 맞출 필요가 없습니다. |
+| 가운데 정렬 | 가운데 정렬 |
+| @ | @ |
+
+| 맨 위 | 맨 위 |
+|--:|---:|
+| 오른쪽 정렬 | 오른쪽 정렬 |
+| @ | @ |
+
+| 맨 위 | 맨 위 |
+|:--|:--|
+| 왼쪽 정렬 | 왼쪽 정렬 |
+| @ | @ |
+
+| 맨 위 | 맨 위 |
+|---|---|
+| 기본 정렬 | 기본 정렬 |
+| @ | @ |
+```
+
+| 맨 위 | 맨 위 |
+|:-:|:---:|
+| 꼭 길이를 | 맞출 필요가 없습니다. |
+| 가운데 정렬 | 가운데 정렬 |
+| @ | @ |
+
+| 맨 위 | 맨 위 |
+|--:|---:|
+| 오른쪽 정렬 | 오른쪽 정렬 |
+| @ | @ |
+
+| 맨 위 | 맨 위 |
+|:--|:--|
+| 왼쪽 정렬 | 왼쪽 정렬 |
+| @ | @ |
+
+| 맨 위 | 맨 위 |
+|---|---|
+| 기본 정렬 | 기본 정렬 |
+| @ | @ |
+
+## 이미지
+
+이미지는 따로 업로드를 하여서 상대경로로 입력해주시기 바랍니다.
+외부로 링크되어 있는 이미지는 막힙니다.
+
+이미지는 `![이미지 대체 텍스트](이미지 상대 경로)`와 같이 사용합니다.
+
+## HTML
+
+HTML을 그대로 넣을 수 있습니다.
+그 덕에 JS로 애니메이션과 CSS로 또 다른 멋진 것을 만들 수 있습니다.
+
+주석은 `<!-- comment -->`로 달 수 있습니다.
+<!-- 주석은 이렇게! -->
 
 
-### [Subscript](https://github.com/markdown-it/markdown-it-sub) / [Superscript](https://github.com/markdown-it/markdown-it-sup)
 
-- 19^th^
-- H~2~O
-
-
-### [\<ins>](https://github.com/markdown-it/markdown-it-ins)
-
-++Inserted text++
-
-
-### [\<mark>](https://github.com/markdown-it/markdown-it-mark)
-
-==Marked text==
-
-
-### [Footnotes](https://github.com/markdown-it/markdown-it-footnote)
-
-Footnote 1 link[^first].
-
-Footnote 2 link[^second].
-
-Inline footnote^[Text of inline footnote] definition.
-
-[^first]: Footnote **can have markup**
-and multiple paragraphs.
-
-[^second]: Footnote text.
-
-
-### [Definition lists](https://github.com/markdown-it/markdown-it-deflist)
-
-Term 1
-
-:   Definition 1
-with lazy continuation.
-
-Term 2 with *inline markup*
-
-:   Definition 2
-
-        { some code, part of Definition 2 }
-
-    Third paragraph of definition 2.
-
-_Compact style:_
-
-Term 1
-  ~ Definition 1
-
-Term 2
-  ~ Definition 2a
-  ~ Definition 2b
-
-
-### [Abbreviations](https://github.com/markdown-it/markdown-it-abbr)
-
-This is HTML abbreviation example.
-
-It converts "HTML", but keep intact partial entries like "xxxHTMLyyy" and so on.
-
-*[HTML]: Hyper Text Markup Language
-
-### [Custom containers](https://github.com/markdown-it/markdown-it-container)
-
-::: warning
-*here be dragons*
-:::
+[^1]: 이렇게 나타납니다. [[ 다른 문서|iamcoder:대문 ]]으로도 이동할 수 있습니다.
