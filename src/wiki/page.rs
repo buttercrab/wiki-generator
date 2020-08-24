@@ -1,6 +1,6 @@
 use crate::config::config::Config;
 use crate::renderer::markdown;
-use crate::renderer::postprocess::{fix_header, fix_link};
+use crate::renderer::postprocess::{add_github_info, fix_footnotes, fix_header, fix_link};
 use crate::util::path;
 use handlebars::Handlebars;
 use std::collections::{HashMap, HashSet};
@@ -81,72 +81,18 @@ impl Page {
             fs::read_to_string(&self.temp).expect(&*format!("reading from {:?} failed", self.temp));
 
         let content = fix_link(content, &self.from, file_map, titles);
+        let content = fix_footnotes(content);
 
         data.insert("content".to_string(), json!(content));
-
         data.insert(
             "title".to_string(),
             json!(format!("{} - {}", self.title, config.wiki.title)),
         );
 
-        let github_url = match &config.html {
-            Some(h) => &h.github,
-            None => &None,
-        };
-
-        match github_url {
-            Some(github_url) => {
-                data.insert(
-                    "time".to_string(),
-                    json!(format!(
-                        "최근 수정 시각: {}",
-                        markdown::get_time(&self.from)
-                    )),
-                );
-                data.insert(
-                    "github_contributors".to_string(),
-                    json!(markdown::get_contributors_html(&self.from, github_url)),
-                );
-                data.insert(
-                    "github_history".to_string(),
-                    json!(markdown::get_github_history(&self.from, github_url)),
-                );
-                data.insert(
-                    "github_edit".to_string(),
-                    json!(markdown::get_github_edit(&self.from, github_url)),
-                );
-                data.insert(
-                    "github_view_issue".to_string(),
-                    json!(markdown::get_github_view_issue(github_url, &self.title)),
-                );
-                data.insert(
-                    "github_make_issue".to_string(),
-                    json!(markdown::get_github_make_issue(github_url, &self.title)),
-                );
-                data.insert(
-                    "view_in_github".to_string(),
-                    json!(markdown::get_view_in_github(&self.from, github_url)),
-                );
-                data.insert(
-                    "view_in_github_mobile".to_string(),
-                    json!(markdown::get_view_in_github_mobile(&self.from, github_url)),
-                );
-                data.insert(
-                    "github_make_issue_mobile".to_string(),
-                    json!(markdown::get_github_make_issue_mobile(
-                        github_url,
-                        &self.title
-                    )),
-                );
-                data.insert(
-                    "github_view_issue_mobile".to_string(),
-                    json!(markdown::get_github_view_issue_mobile(
-                        github_url,
-                        &self.title
-                    )),
-                );
+        if let Some(h) = &config.html {
+            if let Some(gu) = &h.github {
+                add_github_info(&mut data, &self.from, &self.title, gu);
             }
-            None => {}
         }
 
         let html = handlebars

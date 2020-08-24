@@ -2,7 +2,7 @@
 // thanks for great code!
 //
 // table of contents
-addOnload(function () {
+(function toc() {
     let toc = document.querySelector('.toc');
     let tocPath = document.querySelector('.toc-marker path');
     let tocItems;
@@ -108,4 +108,4 @@ addOnload(function () {
         lastPathStart = pathStart;
         lastPathEnd = pathEnd;
     }
-});
+})();

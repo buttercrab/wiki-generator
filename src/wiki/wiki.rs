@@ -67,21 +67,18 @@ impl Wiki {
             .unwrap();
 
         let mut data = serde_json::Map::new();
-        match &self.config.html {
-            Some(h) => match &h.ga {
-                Some(g) => {
-                    data.insert("google_analytics".to_string(), json!(g));
-                }
-                None => {}
-            },
-            None => {}
+        if let Some(h) = &self.config.html {
+            if let Some(g) = &h.ga {
+                data.insert("google_analytics".to_string(), json!(g));
+            }
         }
 
-        match &self.config.wiki.author {
-            Some(a) => {
-                data.insert("author".to_string(), json!(a));
-            }
-            None => {}
+        if let Some(a) = &self.config.wiki.author {
+            data.insert("author".to_string(), json!(a));
+        }
+
+        if let Some(d) = &self.config.wiki.description {
+            data.insert("description".to_string(), json!(d));
         }
 
         for page in self.pages.iter() {

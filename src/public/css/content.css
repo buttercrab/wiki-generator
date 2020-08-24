@@ -76,7 +76,7 @@ a.header:target::before {
     width: 30px;
 }
 
-a.header:target {
+a:target {
     scroll-margin-top: calc(var(--top-bar-height) + 0.5em);
 }
 
@@ -127,7 +127,17 @@ main ul {
 }
 
 main ul ul {
-    padding-left: 1em;
+    padding-left: 1.5em;
+}
+
+main li {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+main li p {
+    margin-block-start: 0;
+    margin-block-end: 0;
 }
 
 main a:hover {
@@ -189,4 +199,90 @@ blockquote {
     border-bottom: 1px solid var(--darken-fg);
     border-top: 1px solid var(--darken-fg);
     border-right: 1px solid var(--darken-fg);
+}
+
+.footnote-reference a {
+    text-decoration: none;
+}
+
+.footnote-reference a::before {
+    content: "[";
+}
+
+.footnote-reference a::after {
+    content: "]";
+}
+
+:not(.footnote-definition) + .footnote-definition,
+.footnote-definition + :not(.footnote-definition) {
+    margin-top: 2em;
+}
+
+.footnote-definition {
+    font-size: 0.9em;
+    margin: 0.5em 0;
+}
+
+.footnote-definition p {
+    display: inline;
+}
+
+.footnote-definition-label a {
+    text-decoration: none;
+}
+
+.footnote-definition-label a::before {
+    content: "[";
+}
+
+.footnote-definition-label a::after {
+    content: "]";
+}
+
+.footnote-reference:hover .top {
+    display: block;
+}
+
+.tippy-box[data-theme~='footnote'] {
+    background-color: var(--bg);
+    background-clip: padding-box;
+    border: 1px var(--fg) solid;
+    color: var(--fg);
+}
+
+.tippy-box-backdrop[data-theme~='footnote'] {
+    background-color: var(--bg);
+}
+
+.tippy-box[data-theme~='footnote'][data-placement~='top'] .tippy-arrow::before {
+    border-top-color: var(--bg);
+}
+
+.tippy-box[data-theme~='footnote'][data-placement~='top'] .tippy-arrow::after {
+    content: '';
+    position: absolute;
+    border-color: transparent;
+    border-style: solid;
+    z-index: -1;
+    top: 17px;
+    border-top-color: var(--fg);
+    border-width: 8px 8px 0;
+    left: 0;
+}
+
+.tippy-box[data-theme~='footnote'][data-placement~='bottom'] .tippy-arrow::before {
+    border-bottom-color: var(--bg);
+    bottom: 16px;
+}
+
+.tippy-box[data-theme~='footnote'][data-placement~='bottom'] .tippy-arrow::after {
+    content: '';
+    position: absolute;
+    border-color: transparent;
+    border-style: solid;
+    z-index: -1;
+    bottom: 17px;
+    border-bottom-color: var(--fg);
+    border-width: 0 8px 8px;
+    left: 0;
 }

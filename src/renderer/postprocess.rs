@@ -1,3 +1,4 @@
+use crate::renderer::markdown;
 use crate::util::path;
 use crate::util::string;
 use regex::{Captures, Regex};
@@ -6,7 +7,6 @@ use std::path::Path;
 use url::Url;
 
 pub fn fix_header<S: AsRef<str>>(html: S) -> String {
-    let mut id_counter = HashMap::new();
     let mut counter = vec![0usize];
     let mut toc = String::new();
     let mut toc_level = 1usize;
@@ -16,17 +16,6 @@ pub fn fix_header<S: AsRef<str>>(html: S) -> String {
         .replace_all(html.as_ref(), |caps: &Captures<'_>| {
             let level = caps[1].parse().unwrap();
             let content = &caps[2];
-
-            let raw_id = string::make_id(content);
-
-            let id_count = id_counter.entry(raw_id.clone()).or_insert(0);
-
-            let id = match *id_count {
-                0 => raw_id,
-                other => format!("{}-{}", raw_id, other),
-            };
-
-            *id_count += 1;
 
             while counter.len() < level - 1 {
                 counter.push(0);
@@ -41,12 +30,17 @@ pub fn fix_header<S: AsRef<str>>(html: S) -> String {
             }
 
             let mut number = String::new();
+            let mut id = String::from("s-");
 
             for x in counter.iter() {
                 number.push_str(&format!("{}.", x));
+                id.push_str(&*format!("{}-", x));
             }
 
-            let typing = string::typing_effect(string::typing_process(content));
+            let typing = string::typing_effect(string::typing_process(string::unescape_html(content)))
+                .iter()
+                .map(|s| string::escape_html(s))
+                .collect::<Vec<_>>();
 
             if level == 1 {
                 format!(
@@ -213,6 +207,86 @@ pub fn fix_link<S: AsRef<str>, P: AsRef<Path>>(
             }
         })
         .to_string();
+
+    html
+}
+
+pub fn add_github_info<P: AsRef<Path>, S: AsRef<str>, T: AsRef<str>>(
+    data: &mut serde_json::Map<String, serde_json::Value>,
+    from: P,
+    title: S,
+    github_url: T,
+) {
+    let from = from.as_ref();
+    let title = title.as_ref();
+    let github_url = github_url.as_ref();
+
+    data.insert(
+        "time".to_string(),
+        json!(format!("최근 수정 시각: {}", markdown::get_time(from))),
+    );
+    data.insert(
+        "github_contributors".to_string(),
+        json!(markdown::get_contributors_html(from, github_url)),
+    );
+    data.insert(
+        "github_history".to_string(),
+        json!(markdown::get_github_history(from, github_url)),
+    );
+    data.insert(
+        "github_edit".to_string(),
+        json!(markdown::get_github_edit(from, github_url)),
+    );
+    data.insert(
+        "github_view_issue".to_string(),
+        json!(markdown::get_github_view_issue(github_url, title)),
+    );
+    data.insert(
+        "github_make_issue".to_string(),
+        json!(markdown::get_github_make_issue(github_url, title)),
+    );
+    data.insert(
+        "view_in_github".to_string(),
+        json!(markdown::get_view_in_github(from, github_url)),
+    );
+    data.insert(
+        "view_in_github_mobile".to_string(),
+        json!(markdown::get_view_in_github_mobile(from, github_url)),
+    );
+    data.insert(
+        "github_make_issue_mobile".to_string(),
+        json!(markdown::get_github_make_issue_mobile(github_url, title)),
+    );
+    data.insert(
+        "github_view_issue_mobile".to_string(),
+        json!(markdown::get_github_view_issue_mobile(github_url, title)),
+    );
+}
+
+pub fn fix_footnotes<S: AsRef<str>>(html: S) -> String {
+    let html = html.as_ref();
+
+    let html = Regex::new(
+        r##"(<div class="footnote-definition" id=")(.*?)("><sup class="footnote-definition-label">)(.*?)</sup>([\s\S]*?)</div>"##,
+    )
+    .unwrap()
+    .replace_all(html, |caps: &Captures<'_>| {
+        format!(r##"{}f-{id}{}<a href="#b-{id}">{}</a></sup>{}</div>"##, &caps[1], &caps[3], &caps[4], &caps[5], id = &caps[2])
+    })
+    .to_string();
+
+    let html =
+        Regex::new(r##"(<sup class="footnote-reference"><a href="#)(.*?)">([\s\S]*?)</a></sup>"##)
+            .unwrap()
+            .replace_all(&*html, |caps: &Captures<'_>| {
+                format!(
+                    r##"{}f-{id}" id="b-{id}">{}</a></sup>"##,
+                    &caps[1],
+                    &caps[3],
+                    id = &caps[2]
+                )
+            })
+            .to_string();
 
     html
 }

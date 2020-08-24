@@ -82,7 +82,6 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="/r/js/wiki.js"></script>
 <script src="/r/js/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -107,5 +106,33 @@
     </script>
     <!-- End Google Analytics -->
 {{/if}}
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://unpkg.com/tippy.js@6"></script>
+<script type="text/javascript" src="/r/js/wiki.js"></script>
+<script>
+    (function footnote() {
+        let map = {};
+        let def = document.getElementsByClassName("footnote-definition");
+
+        for (let i = 0; i < def.length; i++) {
+            let id = def[i].id.substr(2);
+            map[id] = def[i].children[1];
+        }
+
+        let ref = document.getElementsByClassName("footnote-reference");
+
+        for (let i = 0; i < ref.length; i++) {
+            let id = ref[i].children[0].id;
+            let content = map[id.substr(2)];
+            tippy(ref[i], {
+                theme: 'footnote',
+                content: content.innerHTML,
+                allowHTML: true,
+                interactive: true,
+                interactiveBorder: 5,
+            });
+        }
+    })();
+</script>
 </body>
 </html>

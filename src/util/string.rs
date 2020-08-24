@@ -1,27 +1,3 @@
-static REPLACE: &[&str] = &[
-    "<em>",
-    "</em>",
-    "<code>",
-    "</code>",
-    "<strong>",
-    "</strong>",
-];
-
-pub fn make_id<S: AsRef<str>>(s: S) -> String {
-    let mut s = s.as_ref().to_string();
-
-    for i in REPLACE {
-        s = s.replace(i, "");
-    }
-
-    let s = s
-        .chars()
-        .map(|c| if c.is_alphanumeric() { c } else { '-' })
-        .collect::<String>();
-
-    s.trim().trim_start_matches("#").to_string()
-}
-
 pub fn unescape_html<S: AsRef<str>>(s: S) -> String {
     s.as_ref()
         .replace("&amp;", "&")
