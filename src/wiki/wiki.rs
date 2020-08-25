@@ -1,6 +1,6 @@
 use crate::config::config::Config;
 use crate::public;
-use crate::util::path;
+use crate::util::{path, string};
 use crate::wiki::file::File;
 use crate::wiki::page::Page;
 use handlebars::Handlebars;
@@ -60,6 +60,31 @@ impl Wiki {
                 panic!(format!("title is same: {}", page.title));
             }
         }
+
+        let mut title_data = serde_json::Map::new();
+
+        for i in titles.iter() {
+            let i = i.to_ascii_lowercase();
+            let v = string::typing_process(&i);
+            for j in v.iter() {
+                if title_data.contains_key(j) {
+                    if let serde_json::Value::Array(a) = title_data.get_mut(j).unwrap() {
+                        a.push(serde_json::Value::String(i.clone()));
+                    }
+                } else {
+                    title_data.insert(
+                        j.clone(),
+                        serde_json::Value::Array(vec![serde_json::Value::String(i.clone())]),
+                    );
+                }
+            }
+        }
+
+        let title_data = serde_json::Value::Object(title_data);
+        let title_data = title_data.to_string();
+        let out_dir = PathBuf::from(&self.config.wiki.out.clone().unwrap_or("public".to_string()));
+        fs::write(out_dir.join("r").join("search.json"), title_data)
+            .expect("failed to write search.json");
 
         let mut handlebars = Handlebars::new();
         handlebars

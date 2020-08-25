@@ -21,6 +21,84 @@
     box-sizing: border-box;
 }
 
+.top-bar-wrap {
+    position: relative;
+    width: calc(var(--content-max-width) + var(--right-bar-width) + 30px);
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.search-bar-wrap {
+    width: 300px;
+    margin: 2px 0 1px auto;
+    border: 1px var(--fg) solid;
+    border-radius: 8px;
+    display: flex;
+    overflow: hidden;
+    z-index: 1001;
+}
+
+.input-wrap {
+    width: 272px;
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.input-wrap input {
+    width: 260px;
+    font-size: 15px;
+    background: transparent;
+    color: var(--fg);
+    padding: 5px 5px 5px 8px;
+    border: 0;
+    outline: none;
+    font-family: "Open Sans", sans-serif;
+}
+
+.icon-wrap {
+    margin: 0;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+}
+
+.icon-wrap i {
+    padding: 7px 6px;
+    font-size: 16px;
+    color: var(--bg);
+    background: var(--fg);
+}
+
+.search-result-wrap {
+    position: absolute;
+    top: 38px;
+    right: 0;
+    width: 302px;
+}
+
+.search-result {
+    width: 300px;
+    border-radius: 8px;
+    border: 1px var(--fg) solid;
+    background: var(--bg);
+    color: var(--fg);
+    overflow: hidden;
+}
+
+.search-result div {
+    padding: 5px 8px;
+    font-size: 15px;
+    font-family: "Open Sans", sans-serif;
+    outline: none;
+    cursor: pointer;
+}
+
+.search-result .selected {
+    background: var(--darken-fg);
+}
+
 .page-wrap {
     outline: 0;
     padding: 0 calc(var(--page-padding) + 10px);
@@ -192,17 +270,17 @@ main {
     transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-@media only screen and (max-width: 850px) {
+@media only screen and (max-width: 880px) {
     .sidebar-wrap {
         display: none !important;
     }
 
-    main, .main-wrap {
+    main, .main-wrap, .top-bar-wrap {
         width: 100%;
     }
 }
 
-@media only screen and (min-width: 850px) {
+@media only screen and (min-width: 880px) {
     .mobile-info {
         display: none !important;
     }
@@ -216,6 +294,14 @@ main {
 
 @media only screen and (max-width: 500px) {
     .mobile-hide {
+        display: none !important;
+    }
+
+    .search-bar-wrap {
+        display: none !important;
+    }
+
+    .search-result-wrap {
         display: none !important;
     }
 }

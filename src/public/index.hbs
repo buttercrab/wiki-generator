@@ -33,7 +33,12 @@
 <div class="page">
     <div class="top-bar">
         <div class="top-bar-wrap">
-            {{ wiki_title }}
+            <div class="top-bar-title">{{ wiki_title }}</div>
+            <div class="search-bar-wrap">
+                <div class="input-wrap"><input type="text" id="t-search-input" placeholder="Search"></div>
+                <div class="icon-wrap" id="t-search-button"><i class="fas fa-search"></i></div>
+            </div>
+            <div class="search-result-wrap" id="t-search-result"></div>
         </div>
     </div>
     <div class="page-wrap">
