@@ -64,11 +64,11 @@ impl Wiki {
         let mut title_data = serde_json::Map::new();
 
         for i in titles.iter() {
-            let i = i.to_ascii_lowercase();
-            let v = string::typing_process(&i);
+            let v = string::typing_process(i);
             for j in v.iter() {
-                if title_data.contains_key(j) {
-                    if let serde_json::Value::Array(a) = title_data.get_mut(j).unwrap() {
+                let j = j.to_ascii_lowercase();
+                if title_data.contains_key(&j) {
+                    if let serde_json::Value::Array(a) = title_data.get_mut(&j).unwrap() {
                         a.push(serde_json::Value::String(i.clone()));
                     }
                 } else {
