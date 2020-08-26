@@ -1,11 +1,3 @@
-:root {
-    --sidebar-width: 0px;
-    --page-padding: 15px;
-    --content-max-width: 600px;
-    --top-bar-height: 50px;
-    --right-bar-width: 250px;
-}
-
 .dark {
     --bg: #1a1a1d;
     --darken-fg: #585759;

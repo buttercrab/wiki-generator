@@ -13,10 +13,9 @@
     <meta property="og:title" content="{{ title }}"/>
     <title>{{ title }}</title>
     <link rel="stylesheet" href="/r/css/style.css">
-    <link rel="stylesheet" href="/r/css/content.css">
     <link rel="stylesheet" href="/r/css/variable.css">
     <link rel="stylesheet" href="/r/css/tomorrow-night.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">-->
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap">
     <script>
@@ -31,61 +30,39 @@
 </head>
 <body>
 <div class="page">
-    <div class="top-bar">
-        <div class="top-bar-wrap">
-            <div class="top-bar-title">{{ wiki_title }}</div>
-            <div class="search-bar-wrap">
-                <div class="input-wrap"><input type="text" id="t-search-input" placeholder="Search"></div>
-                <div class="icon-wrap" id="t-search-button"><i class="fas fa-search"></i></div>
-            </div>
-            <div class="search-result-wrap" id="t-search-result"></div>
-            <div class="icon-mobile-toggle" id="t-m-search-toggle-button"><i class="fas fa-search"></i></div>
+    <div class="top-bar-w">
+        <div class="top-bar">
+            <div class="logo"> {{{ logo }}} </div>
+            <div class="search"></div>
         </div>
     </div>
-    <div class="page-wrap">
+    <div class="content-w">
         <div class="content">
-            <div class="main-wrap">
-                <div class="search-mobile-wrap mobile-show">
-                    <div class="search-bar-mobile-wrap">
-                        <div class="input-mobile-wrap"><input type="text" id="t-m-search-input" placeholder="Search">
-                        </div>
-                        <div class="icon-mobile-wrap" id="t-m-search-button"><i class="fas fa-search"></i></div>
-                    </div>
-                    <div class="search-result-mobile-wrap" id="t-m-search-result"></div>
-                </div>
-                <div class="mobile-info">
-                    <div class="github-link">
+            <div class="main">
+                <div class="header hl">
+                    <div class="gh-buttons">
                         {{{ github_edit }}}
                         {{{ github_history }}}
                         {{{ view_in_github_mobile }}}
                         {{{ github_make_issue_mobile }}}
                         {{{ github_view_issue_mobile }}}
                     </div>
-                    <p>{{ time }}</p>
-                    <div class="contributors">
-                        {{{ github_contributors }}}
-                    </div>
+                    <p> {{ time }} </p>
+                    <div class="contributors"> {{{ github_contributors }}} </div>
                 </div>
                 <main>
                     {{{ content }}}
                 </main>
             </div>
-
-            <div class="sidebar-wrap">
-                <nav class="toc">
-                    <!-- :toc: -->
-                </nav>
+            <div class="side-bar hm hs">
+                <nav class="toc"><!-- :toc: --></nav>
                 <svg class="toc-marker" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
                     <path id="toc-path" stroke-width="2" fill="transparent" stroke-dasharray="0, 0, 0, 1000"
                           stroke-linecap="round" stroke-linejoin="round" transform="translate(-0.5, -0.5)"/>
                 </svg>
-                <p>
-                    {{ time }}
-                </p>
-                <div class="contributors">
-                    {{{ github_contributors }}}
-                </div>
-                <div class="github-link">
+                <p> {{ time }} </p>
+                <div class="contributors"> {{{ github_contributors }}} </div>
+                <div class="gh-buttons">
                     {{{ github_edit }}}
                     {{{ github_history }}}
                     {{{ view_in_github }}}

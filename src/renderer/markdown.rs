@@ -101,7 +101,7 @@ pub fn get_github_history<P: AsRef<Path>, S: AsRef<str>>(path: P, github_url: S)
     let github_url = github_url.as_ref();
 
     format!(
-        r##"<a target="_blank" href="{github_url}/commits/master/{path}"><div class="link-button">역사</div></a>"##,
+        r##"<a target="_blank" href="{github_url}/commits/master/{path}"><div class="button">역사</div></a>"##,
         github_url = github_url,
         path = path
     )
@@ -112,7 +112,7 @@ pub fn get_github_edit<P: AsRef<Path>, S: AsRef<str>>(path: P, github_url: S) ->
     let github_url = github_url.as_ref();
 
     format!(
-        r##"<a target="_blank" href="{github_url}/edit/master/{path}"><div class="link-button">편집</div></a>"##,
+        r##"<a target="_blank" href="{github_url}/edit/master/{path}"><div class="button">편집</div></a>"##,
         github_url = github_url,
         path = path
     )
@@ -123,7 +123,7 @@ pub fn get_github_view_issue<S: AsRef<str>, T: AsRef<str>>(github_url: S, title:
     let title = title.as_ref();
 
     format!(
-        r##"<a target="_blank" href="{github_url}/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+%5B{title}%5D"><div class="link-button">진행중인 토론</div></a>"##,
+        r##"<a target="_blank" href="{github_url}/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+%5B{title}%5D"><div class="button">진행중인 토론</div></a>"##,
         github_url = github_url,
         title = title,
     )
@@ -134,7 +134,7 @@ pub fn get_github_make_issue<S: AsRef<str>, T: AsRef<str>>(github_url: S, title:
     let title = title.as_ref();
 
     format!(
-        r##"<a target="_blank" href={github_url}/issues/new?title=%5B{title}%5D+"><div class="link-button">토론 생성하기</div></a>"##,
+        r##"<a target="_blank" href={github_url}/issues/new?title=%5B{title}%5D+"><div class="button">토론 생성하기</div></a>"##,
         github_url = github_url,
         title = title
     )
@@ -145,7 +145,7 @@ pub fn get_view_in_github<P: AsRef<Path>, S: AsRef<str>>(path: P, github_url: S)
     let github_url = github_url.as_ref();
 
     format!(
-        r##"<a target="_blank" href="{github_url}/blob/master/{path}"><div class="link-button">Github에서 보기</div></a>"##,
+        r##"<a target="_blank" href="{github_url}/blob/master/{path}"><div class="button">Github에서 보기</div></a>"##,
         github_url = github_url,
         path = path,
     )
@@ -156,7 +156,7 @@ pub fn get_view_in_github_mobile<P: AsRef<Path>, S: AsRef<str>>(path: P, github_
     let github_url = github_url.as_ref();
 
     format!(
-        r##"<a target="_blank" href="{github_url}/blob/master/{path}"><div class="link-button mobile-hide">Github에서 보기</div></a>"##,
+        r##"<a target="_blank" href="{github_url}/blob/master/{path}"><div class="button hs">Github에서 보기</div></a>"##,
         github_url = github_url,
         path = path,
     )
@@ -170,7 +170,7 @@ pub fn get_github_make_issue_mobile<S: AsRef<str>, T: AsRef<str>>(
     let title = title.as_ref();
 
     format!(
-        r##"<a target="_blank" href="{github_url}/issues/new?title=%5B{title}%5D+"><div class="link-button mobile-hide">토론 생성하기</div><div class="link-button mobile-show">새 토론</div></a>"##,
+        r##"<a target="_blank" href="{github_url}/issues/new?title=%5B{title}%5D+"><div class="button hs">토론 생성하기</div><div class="button hm">새 토론</div></a>"##,
         github_url = github_url,
         title = title
     )
@@ -184,7 +184,7 @@ pub fn get_github_view_issue_mobile<S: AsRef<str>, T: AsRef<str>>(
     let title = title.as_ref();
 
     format!(
-        r##"<a target="_blank" href="{github_url}/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+%5B{title}%5D"><div class="link-button mobile-hide">진행중인 토론</div><div class="link-button mobile-show">토론 보기</div></a>"##,
+        r##"<a target="_blank" href="{github_url}/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+%5B{title}%5D"><div class="button hs">진행중인 토론</div><div class="button hm">토론 보기</div></a>"##,
         github_url = github_url,
         title = title,
     )

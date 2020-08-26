@@ -61,7 +61,7 @@ async function writeTitle() {{
 
 addOnload(writeTitle);
 </script>
-<h{level} class="header title">_</h{level}>"##,
+<h{level} class="heading title">_</h{level}>"##,
                     typing,
                     level = level,
                 )
@@ -90,7 +90,7 @@ addOnload(writeTitle);
                 ));
 
                 format!(
-                    r##"<h{level}><a class="header" href="#{id}" id="{id}">{number} {text}</a></h{level}>"##,
+                    r##"<h{level} class="heading"><a href="#{id}" id="{id}">{number}</a> {text}</h{level}>"##,
                     level = level,
                     id = id,
                     number = number,
