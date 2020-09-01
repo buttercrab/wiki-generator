@@ -113,7 +113,7 @@ pub fn hangul_detach(c: char) -> Vec<char> {
             vec![17],     // ㅠ
             vec![18],     // ㅡ
             vec![18, 19], // ㅢ
-            vec![19],     // ㅣ
+            vec![20],     // ㅣ
         ];
 
         let last = vec![
