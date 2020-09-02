@@ -22,6 +22,7 @@ pub struct Wiki {
 pub struct Html {
     pub(crate) github: Option<String>,
     pub(crate) ga: Option<String>,
+    pub(crate) logo: Option<String>,
 }
 
 pub fn get_config() -> Config {

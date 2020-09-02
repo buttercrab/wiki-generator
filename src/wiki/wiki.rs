@@ -102,6 +102,10 @@ impl Wiki {
             if let Some(g) = &h.ga {
                 data.insert("google_analytics".to_string(), json!(g));
             }
+
+            if let Some(l) = &h.logo {
+                data.insert("logo".to_string(), json!(l));
+            }
         }
 
         if let Some(a) = &self.config.wiki.author {

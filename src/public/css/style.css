@@ -18,8 +18,8 @@
 
 html {
     font-size: 62.5%;
-    color: var(--fg);
-    background: var(--bg);
+    color: var(--c-3-0);
+    background: var(--c-1-0);
     font-family: "Open Sans", sans-serif;
 }
 
@@ -38,9 +38,10 @@ body {
 }
 
 .top-bar-w {
-    background: var(--bg);
-    border-top: 5px solid var(--point);
-    border-bottom: 1px solid var(--darken-fg);
+    background: var(--c-1-1);
+    border-top: 5px solid var(--c-2-0);
+    box-shadow: 0 0 12px -1px #00000088;
+    box-sizing: border-box;
     height: 50px;
     left: 0;
     margin: 0;
@@ -48,7 +49,7 @@ body {
     position: sticky;
     top: 0;
     width: 100%;
-    z-index: 999999;
+    z-index: 100001;
 }
 
 .top-bar {
@@ -60,9 +61,145 @@ body {
 }
 
 .logo {
+    height: 33px;
+    margin: 3px 0;
+}
+
+.search-w {
+    background: var(--c-1-4);
+    border-radius: 5px;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 2px;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    transition: all 0.2s cubic-bezier(.08, .83, .53, .99);
+    top: 0;
+    width: 33px;
+    z-index: 100002;
+}
+
+.search-w:hover {
+    border: 0;
+    box-shadow: 0 3px 6px 1px #00000066;
+}
+
+.search-w.expand {
+    box-shadow: 0 3px 6px 1px #00000066;
+    max-width: calc(100% - 6px);
+    width: 300px;
+}
+
+.search-input-w {
+    box-sizing: border-box;
+    height: 33px;
+    padding: 2px 4px;
+    width: 267px;
+}
+
+.search-input-w.hide {
+    display: none;
+}
+
+.search-input-w input {
+    background: transparent;
+    border: 0;
+    color: var(--c-3-0);
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    height: 25px;
+    outline: 0;
+    width: 259px;
 }
 
 .search {
+    box-sizing: border-box;
+    cursor: pointer;
+    height: 33px;
+    margin-left: auto;
+    padding: 2px;
+    width: 33px;
+}
+
+.search-result-w {
+    margin: 0;
+    padding: 4px 3px;
+    width: 100%;
+}
+
+.search-result-w.hide {
+    display: none;
+}
+
+.search-result {
+    padding-top: 5px;
+}
+
+.search-result div {
+    padding: 3px;
+    border-radius: 3px;
+}
+
+.result {
+
+}
+
+.selected {
+    background: var(--c-1-2);
+}
+
+.icon-w {
+    height: 25px;
+    margin: 2px;
+    position: relative;
+    width: 25px;
+}
+
+.circle {
+    background: var(--c-3-4);
+    border-radius: 50%;
+    height: 18px;
+    left: 2px;
+    position: absolute;
+    top: 2px;
+    transition: all 0.2s ease-in-out;
+    width: 18px;
+    z-index: 100006;
+}
+
+.circle::after {
+    background: var(--c-1-4);
+    border-radius: 50%;
+    content: '';
+    height: 14px;
+    left: 2px;
+    position: absolute;
+    top: 2px;
+    transition: all 0.2s ease-in-out;
+    width: 14px;
+    z-index: 100008;
+}
+
+.stick {
+    background: var(--c-3-4);
+    border-radius: 1px;
+    height: 2px;
+    left: 14.9246212px;
+    position: absolute;
+    top: 18.9246212px;
+    transform: rotate(45deg);
+    transition: all 0.2s ease-in-out;
+    width: 10px;
+    z-index: 100007;
+}
+
+.stick.to_x {
+    left: -3px;
+    top: 11.5px;
+    transition: all 0.2s ease-in-out;
+    width: 31px;
 }
 
 .content-w {
@@ -98,6 +235,10 @@ body {
     flex-wrap: wrap;
 }
 
+.gh-buttons a,
+.gh-buttons a:visited,
+.gh-buttons a:link,
+.gh-buttons a:active,
 .gh-buttons a:hover {
     text-decoration: none;
 }
@@ -105,9 +246,9 @@ body {
 .gh-buttons .button,
 .gh-buttons .button:visited,
 .gh-buttons .button:active {
-    border: 1px solid var(--fg) !important;
+    border: 1px solid var(--c-3-0) !important;
     border-radius: 3px;
-    color: var(--fg) !important;
+    color: var(--c-3-0) !important;
     font-size: small;
     margin: 5px 6px 5px 0;
     padding: 5px 10px;
@@ -115,8 +256,12 @@ body {
 }
 
 .gh-buttons .button:hover {
-    background: var(--fg);
-    color: var(--bg) !important;
+    background: var(--c-3-0);
+    color: var(--c-1-0) !important;
+}
+
+.header .contributors {
+    justify-content: flex-end;
 }
 
 .contributors {
@@ -171,7 +316,7 @@ h5, h6 {
 }
 
 .heading {
-    color: var(--fg);
+    color: var(--c-3-0);
     width: 100%;
 }
 
@@ -244,8 +389,8 @@ main li + p {
 }
 
 code {
-    background: var(--bg) !important;
-    border: 1px solid var(--darken-fg);
+    background: var(--c-1-0) !important;
+    border: 1px solid var(--c-1-6);
     border-radius: 3px;
     font-family: 'JetBrains Mono', monospace !important;
     font-size: 14px;
@@ -271,13 +416,15 @@ table {
 }
 
 table td {
-    border: 1px var(--fg) solid;
+    border-bottom: 1px var(--c-1-9) solid;
+    border-left: 1px var(--c-1-9) solid;
+    border-right: 1px var(--c-1-9) solid;
     padding: 3px 20px;
 }
 
 table thead {
-    background: var(--fg);
-    color: var(--bg);
+    background: var(--c-2-5);
+    color: var(--c-1-0);
 }
 
 table thead td {
@@ -286,21 +433,22 @@ table thead td {
 }
 
 table thead th {
-    border-right: 1px var(--bg) solid;
+    border-bottom: 1px var(--c-2-5) solid;
+    border-right: 1px var(--c-1-0) solid;
     padding: 3px 20px;
 }
 
 table thead th:last-child {
-    border-right: 1px var(--fg) solid;
+    border-right: 1px var(--c-2-5) solid;
 }
 
 blockquote {
     background-color: var(--quote-bg);
-    border-bottom: 1px solid var(--darken-fg);
+    border-bottom: 1px solid var(--c-1-9);
     border-left: 3px solid var(--quote-side);
-    border-right: 1px solid var(--darken-fg);
-    border-top: 1px solid var(--darken-fg);
-    color: var(--fg);
+    border-right: 1px solid var(--c-1-9);
+    border-top: 1px solid var(--c-1-9);
+    color: var(--c-3-0);
     margin: 20px 0;
     padding: 0 20px;
 }
@@ -349,23 +497,23 @@ blockquote {
 
 .tippy-box[data-theme~='footnote'] {
     background-clip: padding-box;
-    background-color: var(--bg);
-    border: 1px var(--fg) solid;
-    color: var(--fg);
+    background-color: var(--c-1-0);
+    border: 1px var(--c-1-9) solid;
+    color: var(--c-3-0);
 }
 
 .tippy-box-backdrop[data-theme~='footnote'] {
-    background-color: var(--bg);
+    background-color: var(--c-1-0);
 }
 
 .tippy-box[data-theme~='footnote'][data-placement~='top'] .tippy-arrow::before {
-    border-top-color: var(--bg);
+    border-top-color: var(--c-1-0);
 }
 
 .tippy-box[data-theme~='footnote'][data-placement~='top'] .tippy-arrow::after {
     border-color: transparent;
     border-style: solid;
-    border-top-color: var(--fg);
+    border-top-color: var(--c-1-9);
     border-width: 8px 8px 0;
     content: '';
     left: 0;
@@ -375,7 +523,7 @@ blockquote {
 }
 
 .tippy-box[data-theme~='footnote'][data-placement~='bottom'] .tippy-arrow::before {
-    border-bottom-color: var(--bg);
+    border-bottom-color: var(--c-1-0);
     bottom: 16px;
 }
 
@@ -386,7 +534,7 @@ blockquote {
     border-style: solid;
     z-index: -1;
     bottom: 17px;
-    border-bottom-color: var(--fg);
+    border-bottom-color: var(--c-1-9);
     border-width: 0 8px 8px;
     left: 0;
 }
@@ -401,7 +549,7 @@ blockquote {
 
 .side-bar p {
     font-size: small;
-    margin: 5px 0 0;
+    margin: 0 0 5px;
 }
 
 .toc {
@@ -422,25 +570,31 @@ blockquote {
 }
 
 .toc li a,
-.toc li a:hover,
 .toc li a:visited,
 .toc li a:active {
-    color: var(--darken-fg) !important;
+    color: var(--c-3-7) !important;
     display: inline-block;
     text-decoration: none;
     transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+.toc li a:hover {
+    color: var(--c-3-8) !important;
+}
+
 .toc li.visible > a,
-.toc li.visible > a:hover,
 .toc li.visible > a:visited,
 .toc li.visible > a:active {
-    color: var(--fg) !important;
+    color: var(--c-3-0) !important;
     transform: translate(5px);
 }
 
+.toc li.visible > a:hover {
+    color: var(--c-3-1) !important;
+}
+
 #toc-path {
-    stroke: var(--fg);
+    stroke: var(--c-2-1);
 }
 
 .toc-marker {
@@ -465,6 +619,10 @@ blockquote {
 @media only screen and (max-width: 880px) and (min-width: 501px) {
     .hm {
         display: none !important;
+    }
+
+    .main {
+        width: 100%;
     }
 }
 

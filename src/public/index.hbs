@@ -14,8 +14,9 @@
     <title>{{ title }}</title>
     <link rel="stylesheet" href="/r/css/style.css">
     <link rel="stylesheet" href="/r/css/variable.css">
-    <link rel="stylesheet" href="/r/css/tomorrow-night.min.css">
-<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">-->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/styles/androidstudio.min.css">
+    <!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">-->
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap">
     <script>
@@ -32,8 +33,17 @@
 <div class="page">
     <div class="top-bar-w">
         <div class="top-bar">
-            <div class="logo"> {{{ logo }}} </div>
-            <div class="search"></div>
+            <div class="logo"><a href="/"><img src="/{{ logo }}" alt="IamCoder Wiki" height="33"/></a></div>
+            <div class="search-w">
+                <div class="search-input-w hide"><input id="t-s-input" placeholder="Search"></div>
+                <div class="search" id="t-s-button">
+                    <div class="icon-w">
+                        <div class="circle"></div>
+                        <div class="stick"></div>
+                    </div>
+                </div>
+                <div class="search-result-w hide" id="t-search-result"></div>
+            </div>
         </div>
     </div>
     <div class="content-w">

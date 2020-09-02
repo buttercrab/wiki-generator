@@ -6,7 +6,6 @@ pub static REDIRECT_HBS: &[u8] = include_bytes!("redirect.hbs");
 
 pub static STYLE_CSS: &[u8] = include_bytes!("css/style.css");
 pub static VARIABLE_CSS: &[u8] = include_bytes!("css/variable.css");
-pub static TOMORROW_NIGHT_MIN_CSS: &[u8] = include_bytes!("css/tomorrow-night.min.css");
 
 pub static LINK_DARK_SVG: &[u8] = include_bytes!("img/link-dark.svg");
 
@@ -22,7 +21,6 @@ pub fn init<P: AsRef<Path>>(out_dir: P) {
 
     let style_css_path = Path::new("css/style.css");
     let variable_css_path = Path::new("css/variable.css");
-    let tomorrow_night_min_css_path = Path::new("css/tomorrow-night.min.css");
     let link_dark_svg_path = Path::new("img/link-dark.svg");
     let wiki_js_path = Path::new("js/wiki.js");
     let highlight_js_path = Path::new("js/highlight.min.js");
@@ -41,14 +39,6 @@ pub fn init<P: AsRef<Path>>(out_dir: P) {
     fs::write(out_dir.join("r").join(variable_css_path), VARIABLE_CSS).expect(&*format!(
         "failed to copy {:?}",
         out_dir.join("r").join(variable_css_path)
-    ));
-    fs::write(
-        out_dir.join("r").join(tomorrow_night_min_css_path),
-        TOMORROW_NIGHT_MIN_CSS,
-    )
-    .expect(&*format!(
-        "failed to copy {:?}",
-        out_dir.join("r").join(tomorrow_night_min_css_path)
     ));
     fs::write(out_dir.join("r").join(link_dark_svg_path), LINK_DARK_SVG).expect(&*format!(
         "failed to copy {:?}",
