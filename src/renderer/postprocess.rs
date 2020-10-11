@@ -344,11 +344,11 @@ pub fn fix_footnotes<S: AsRef<str>>(html: S) -> String {
         .to_string();
 
     let html =
-        Regex::new(r##"(<sup class="footnote-reference"><a href="#)(.*?)">([\s\S]*?)</a></sup>"##)
+        Regex::new(r##"(<sup class="footnote-reference"><a) href="#(.*?)">([\s\S]*?)</a></sup>"##)
             .unwrap()
             .replace_all(&*html, |caps: &Captures<'_>| {
                 format!(
-                    r##"{}f-{id}" id="b-{id}">{}</a></sup>"##,
+                    r##"{} id="b-{id}">{}</a></sup>"##,
                     &caps[1],
                     &caps[3],
                     id = &caps[2]
