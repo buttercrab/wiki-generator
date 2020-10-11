@@ -1,13 +1,13 @@
 use serde::Deserialize;
 use std::fs;
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone)]
 pub struct Config {
     pub(crate) wiki: Wiki,
     pub(crate) html: Option<Html>,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone)]
 pub struct Wiki {
     pub(crate) title: String,
     pub(crate) author: Option<String>,
@@ -18,7 +18,7 @@ pub struct Wiki {
     pub(crate) main: Option<String>,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone)]
 pub struct Html {
     pub(crate) github: Option<String>,
     pub(crate) ga: Option<String>,

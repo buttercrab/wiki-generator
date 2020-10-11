@@ -93,6 +93,7 @@ impl Page {
         mut data: serde_json::Map<String, serde_json::Value>,
         file_map: &HashMap<String, String>,
         titles: &HashSet<String>,
+        contrib_data: &HashMap<String, String>,
     ) {
         print!("Rendering {:?} ...", self.from);
         io::stdout().flush().unwrap();
@@ -111,7 +112,16 @@ impl Page {
 
         if let Some(h) = &config.html {
             if let Some(gu) = &h.github {
-                add_github_info(&mut data, &self.from, &self.title, gu);
+                add_github_info(
+                    &mut data,
+                    &self.from,
+                    &self.title,
+                    gu,
+                    contrib_data
+                        .get(&path::path_to_str(&self.from))
+                        .unwrap()
+                        .clone(),
+                );
             }
         }
 

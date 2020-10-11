@@ -25,25 +25,26 @@ struct Build {}
 #[derive(Clap)]
 struct Serve {}
 
-fn build() {
-    let mut wiki = Wiki::new(config::get_config());
+async fn build() {
+    let mut wiki = Wiki::new(config::get_config()).await;
     wiki.render();
 }
 
 #[cfg(feature = "serve")]
-fn serve() {
-    build();
+async fn serve() {
+    build().await;
     rocket::ignite()
         .mount("/", StaticFiles::from("public"))
         .launch();
 }
 
-fn main() {
+#[tokio::main]
+async fn main() {
     let opt: Opts = Opts::parse();
 
     match opt.sub {
-        SubCommand::Build(_) => build(),
+        SubCommand::Build(_) => build().await,
         #[cfg(feature = "serve")]
-        SubCommand::Serve(_) => serve(),
+        SubCommand::Serve(_) => serve().await,
     }
 }

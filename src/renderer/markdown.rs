@@ -63,39 +63,6 @@ pub fn get_time<P: AsRef<Path>>(path: P) -> String {
     )
 }
 
-pub fn get_contributors_html<P: AsRef<Path>, S: AsRef<str>>(path: P, github_url: S) -> String {
-    let path = path::path_to_str(path.as_ref());
-    let github_url = github_url.as_ref();
-
-    let contributors = reqwest::blocking::get(&*format!(
-        "{github_url}/contributors-list/master/{path}",
-        github_url = github_url,
-        path = path
-    ))
-    .expect("fail to fetch contributors")
-    .text()
-    .unwrap();
-
-    let cont_id = Regex::new(r##"href="/(.*?)""##)
-        .unwrap()
-        .captures_iter(&*contributors)
-        .map(|c| String::from(&c[1]))
-        .collect::<Vec<_>>();
-
-    let mut cont_html =
-        String::from(r##"<div class="description"><span>기여자:&nbsp;</span></div>"##);
-    for id in cont_id.iter() {
-        cont_html.push_str(
-            &*format!(
-                r##"<a href="https://github.com/{id}" target="_blank"><span title="{id}"><img src="https://github.com/{id}.png?size=32" width="24" height="24" alt="@{id}"/></span></a>"##,
-                id = id,
-            )
-        );
-    }
-
-    cont_html
-}
-
 pub fn get_github_history<P: AsRef<Path>, S: AsRef<str>>(path: P, github_url: S) -> String {
     let path = path::path_to_str(path.as_ref());
     let github_url = github_url.as_ref();

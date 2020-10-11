@@ -286,6 +286,7 @@ pub fn add_github_info<P: AsRef<Path>, S: AsRef<str>, T: AsRef<str>>(
     from: P,
     title: S,
     github_url: T,
+    contrib_html: String,
 ) {
     let from = from.as_ref();
     let title = title.as_ref();
@@ -295,10 +296,7 @@ pub fn add_github_info<P: AsRef<Path>, S: AsRef<str>, T: AsRef<str>>(
         "time".to_string(),
         json!(format!("최근 수정 시각: {}", markdown::get_time(from))),
     );
-    data.insert(
-        "github_contributors".to_string(),
-        json!(markdown::get_contributors_html(from, github_url)),
-    );
+    data.insert("github_contributors".to_string(), json!(contrib_html));
     data.insert(
         "github_history".to_string(),
         json!(markdown::get_github_history(from, github_url)),

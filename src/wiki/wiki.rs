@@ -4,6 +4,8 @@ use crate::util::{path, string};
 use crate::wiki::file::File;
 use crate::wiki::page::Page;
 use handlebars::Handlebars;
+use regex::Regex;
+use reqwest::Client;
 use std::collections::{HashMap, HashSet};
 use std::ffi::OsStr;
 use std::path::PathBuf;
@@ -14,20 +16,40 @@ pub struct Wiki {
     pages: Vec<Page>,
     files: Vec<File>,
     file_map: HashMap<String, String>,
+    contrib_data: HashMap<String, String>,
 }
 
 impl Wiki {
-    pub fn new(config: Config) -> Wiki {
+    pub async fn new(config: Config) -> Wiki {
         let src_dir = PathBuf::from(config.wiki.src.clone().unwrap_or("src".to_string()));
         let out_dir = PathBuf::from(config.wiki.out.clone().unwrap_or("public".to_string()));
         let file_list = path::get_files_all(&src_dir);
         let mut pages = Vec::new();
         let mut files = Vec::new();
         let mut file_map = HashMap::new();
+        let mut contrib_urls = Vec::new();
+        let mut github_url = String::new();
+
+        if let Some(h) = &config.html {
+            if let Some(gu) = &h.github {
+                github_url = gu.clone();
+            }
+        }
 
         for file in file_list.iter() {
             if path::os_to_str(file.extension().unwrap_or(OsStr::new(""))) == "md" {
                 pages.push(Page::new(file, &src_dir, &out_dir, &config.wiki.preserve));
+                if !github_url.is_empty() {
+                    let from = path::path_to_str(file.to_path_buf());
+                    contrib_urls.push((
+                        from.clone(),
+                        format!(
+                            "{github_url}/contributors-list/master/{path}",
+                            github_url = github_url,
+                            path = from
+                        ),
+                    ));
+                }
             } else {
                 files.push(File::new(file, &src_dir, &out_dir, &config.wiki.preserve));
                 file_map.insert(
@@ -37,6 +59,45 @@ impl Wiki {
             }
         }
 
+        let client = Client::new();
+
+        let bodies = futures::future::join_all(contrib_urls.into_iter().map(|(from, url)| {
+            let client = &client;
+            async move {
+                let resp = client.get(&url).send().await?;
+                resp.bytes().await.map(|b| (from, b))
+            }
+        }))
+        .await;
+
+        let mut contrib_data = HashMap::new();
+
+        for b in bodies.iter() {
+            let (from, data) = b.as_ref().unwrap_or_else(|_| {
+                panic!("Error on fetching contributors");
+            });
+            let contributors = String::from_utf8(data.to_vec()).unwrap();
+
+            let cont_id = Regex::new(r##"href="/(.*?)""##)
+                .unwrap()
+                .captures_iter(&*contributors)
+                .map(|c| String::from(&c[1]))
+                .collect::<Vec<_>>();
+
+            let mut cont_html =
+                String::from(r##"<div class="description"><span>기여자:&nbsp;</span></div>"##);
+            for id in cont_id.iter() {
+                cont_html.push_str(
+                    &*format!(
+                        r##"<a href="https://github.com/{id}" target="_blank"><span title="{id}"><img src="https://github.com/{id}.png?size=32" width="24" height="24" alt="@{id}"/></span></a>"##,
+                        id = id,
+                    )
+                );
+            }
+
+            contrib_data.insert(from.clone(), cont_html);
+        }
+
         public::init(&out_dir);
 
         Wiki {
@@ -44,6 +105,7 @@ impl Wiki {
             pages,
             files,
             file_map,
+            contrib_data,
         }
     }
 
@@ -132,6 +194,7 @@ impl Wiki {
                 data.clone(),
                 &self.file_map,
                 &titles,
+                &self.contrib_data,
             );
         }
 
