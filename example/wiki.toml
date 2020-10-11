@@ -1,6 +1,7 @@
 [wiki]
 title = "IamCoder Wiki"
 preserve = ["robots.txt"]
+main = "iamcoder:문법"
 
 [html]
 #ga = "hello"
