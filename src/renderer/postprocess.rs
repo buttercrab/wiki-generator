@@ -219,7 +219,10 @@ pub fn fix_link<S: AsRef<str>, P: AsRef<Path>>(
                                     s = String::new();
                                 }
                             }
-                            c => s.push(c),
+                            c => {
+                                s.push(c);
+                                esc = false;
+                            }
                         }
                     }
                     let title = s;
