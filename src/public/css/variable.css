@@ -33,13 +33,9 @@
     --c-3-9: #59595B;
 
     --link: #4d83bc;
-    --point: #4d3c88;
     --quote-bg: #2d2d29;
     --quote-side: #a79d68;
     --outer-link: #af8754;
-    --search-bg: #434345;
-    --top-bg: #272628;
-    --table-bg: #796da6;
 }
 
 .light {
@@ -77,11 +73,7 @@
     --c-3-9: #606060;
 
     --link: #4d83bc;
-    --point: #4d3c88;
     --quote-bg: #fffff7;
     --quote-side: #e8da91;
     --outer-link: #af8754;
-    --search-bg: #434345;
-    --top-bg: #272628;
-    --table-bg: #796da6;
 }

@@ -1,12 +1,11 @@
 @import 'variable.css';
 
 @font-face {
-    font-family: 'JetBrains Mono';
-    src: url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/fonts/web/JetBrainsMono-Regular.eot') format('embedded-opentype'),
-    url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/fonts/web/JetBrainsMono-Regular.woff2') format('woff2'),
-    url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/fonts/web/JetBrainsMono-Regular.woff') format('woff'),
-    url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/fonts/ttf/JetBrainsMono-Regular.ttf') format('truetype');
-    font-weight: normal;
+    font-family: 'JetBrainsMono';
+    src: url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2') format('woff2'),
+    url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono/web/woff/JetBrainsMono-Regular.woff') format('woff'),
+    url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono/ttf/JetBrainsMono-Regular.ttf') format('truetype');
+    font-weight: 400;
     font-style: normal;
 }
 
@@ -53,6 +52,7 @@ body {
 }
 
 .top-bar {
+    display: flex;
     height: 100%;
     margin: 0 auto;
     max-width: 100%;
@@ -71,12 +71,12 @@ body {
     box-sizing: border-box;
     display: flex;
     flex-wrap: wrap;
-    margin: 0 2px;
+    margin: 2px;
     overflow: hidden;
     position: absolute;
-    right: 0;
+    right: 37px;
     transition: all 0.2s cubic-bezier(.08, .83, .53, .99);
-    top: -2px;
+    top: 0;
     width: 33px;
     z-index: 100002;
 }
@@ -150,6 +150,31 @@ body {
 
 .selected {
     background: var(--c-1-7);
+}
+
+.theme-w {
+    display: flex;
+    width: 33px;
+    height: 33px;
+    background: var(--c-3-0);
+    color: var(--c-1-0);
+    border-radius: 17px;
+    margin: 2px;
+    box-sizing: border-box;
+    position: absolute;
+    right: 0;
+    flex-wrap: wrap;
+    transition: all 0.2s cubic-bezier(.08, .83, .53, .99);
+    cursor: pointer;
+}
+
+.theme-w:hover {
+    background: var(--c-1-0);
+    color: var(--c-3-0);
+}
+
+.theme {
+    margin: auto
 }
 
 .content-w {
