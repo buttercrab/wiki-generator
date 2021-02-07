@@ -8,6 +8,7 @@ pub static STYLE_CSS: &[u8] = include_bytes!("css/style.css");
 pub static VARIABLE_CSS: &[u8] = include_bytes!("css/variable.css");
 
 pub static LINK_DARK_SVG: &[u8] = include_bytes!("img/link-dark.svg");
+pub static LINK_LIGHT_SVG: &[u8] = include_bytes!("img/link-light.svg");
 
 pub static WIKI_JS: &[u8] = include_bytes!("js/wiki.js");
 pub static HIGHLIGHT_JS: &[u8] = include_bytes!("js/highlight.min.js");
@@ -22,6 +23,7 @@ pub fn init<P: AsRef<Path>>(out_dir: P) {
     let style_css_path = Path::new("css/style.css");
     let variable_css_path = Path::new("css/variable.css");
     let link_dark_svg_path = Path::new("img/link-dark.svg");
+    let link_light_svg_path = Path::new("img/link-light.svg");
     let wiki_js_path = Path::new("js/wiki.js");
     let highlight_js_path = Path::new("js/highlight.min.js");
 
@@ -43,6 +45,10 @@ pub fn init<P: AsRef<Path>>(out_dir: P) {
     fs::write(out_dir.join("r").join(link_dark_svg_path), LINK_DARK_SVG).expect(&*format!(
         "failed to copy {:?}",
         out_dir.join("r").join(link_dark_svg_path)
+    ));
+    fs::write(out_dir.join("r").join(link_light_svg_path), LINK_LIGHT_SVG).expect(&*format!(
+        "failed to copy {:?}",
+        out_dir.join("r").join(link_light_svg_path)
     ));
     fs::write(out_dir.join("r").join(wiki_js_path), WIKI_JS).expect(&*format!(
         "failed to copy {:?}",

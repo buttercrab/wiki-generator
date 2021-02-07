@@ -36,6 +36,8 @@
     --quote-bg: #2d2d29;
     --quote-side: #a79d68;
     --outer-link: #af8754;
+
+    --outer-link-svg: url("/r/img/link-dark.svg");
 }
 
 .light {
@@ -72,8 +74,10 @@
     --c-3-8: #7d7d7d;
     --c-3-9: #898989;
 
-    --link: #4d83bc;
-    --quote-bg: #fffff7;
-    --quote-side: #e8da91;
-    --outer-link: #af8754;
+    --link: #2979cb;
+    --quote-bg: #fffaf1;
+    --quote-side: #ffc25e;
+    --outer-link: #d28a32;
+
+    --outer-link-svg: url("/r/img/link-light.svg");
 }
