@@ -1,6 +1,6 @@
 [package]
 name = "wiki-generator"
-version = "0.2.2"
+version = "0.2.3"
 authors = ["buttercrab <jaeyong0201@gmail.com>"]
 edition = "2018"
 

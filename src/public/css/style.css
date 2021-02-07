@@ -367,6 +367,10 @@ main li + p {
     margin-block-end: 0;
 }
 
+main del {
+    color: var(--c-3-7);
+}
+
 code {
     background: var(--c-1-0) !important;
     border: 1px solid var(--c-1-6);
