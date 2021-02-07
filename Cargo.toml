@@ -1,6 +1,6 @@
 [package]
 name = "wiki-generator"
-version = "0.2.3"
+version = "0.2.4"
 authors = ["buttercrab <jaeyong0201@gmail.com>"]
 edition = "2018"
 
@@ -22,6 +22,7 @@ sha2 = "0.9.3"
 tokio = { version = "1.2", features = ["macros"] }
 toml = "0.5"
 url = "2.2"
+urlencoding = "1.1.1"
 walkdir = "2"
 
 [features]

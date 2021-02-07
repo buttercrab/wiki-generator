@@ -8,8 +8,8 @@ use regex::Regex;
 use reqwest::Client;
 use std::collections::{HashMap, HashSet};
 use std::ffi::OsStr;
+use std::fs;
 use std::path::PathBuf;
-use std::{fs, str};
 
 pub struct Wiki {
     config: Config,
@@ -98,7 +98,7 @@ impl Wiki {
             contrib_data.insert(from.clone(), cont_html);
         }
 
-        public::init(&out_dir);
+        public::init(&out_dir).await;
 
         Wiki {
             config,
@@ -150,13 +150,10 @@ impl Wiki {
 
         let mut handlebars = Handlebars::new();
         handlebars
-            .register_template_string("index.hbs", str::from_utf8(public::INDEX_HBS).unwrap())
+            .register_template_string("index.hbs", public::INDEX_HBS)
             .unwrap();
         handlebars
-            .register_template_string(
-                "redirect.hbs",
-                str::from_utf8(public::REDIRECT_HBS).unwrap(),
-            )
+            .register_template_string("redirect.hbs", public::REDIRECT_HBS)
             .unwrap();
 
         let mut data = serde_json::Map::new();

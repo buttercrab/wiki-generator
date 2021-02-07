@@ -170,7 +170,10 @@ pub fn fix_link<S: AsRef<str>, P: AsRef<Path>>(
 
                     format!(r#"<a {attrs}>"#, attrs = attrs)
                 } else {
-                    format!(r#"<a {attrs} class="outer" target="_blank">"#, attrs = attrs)
+                    format!(
+                        r#"<a {attrs} class="outer" target="_blank">"#,
+                        attrs = attrs
+                    )
                 }
             } else {
                 caps[0].to_string()

@@ -1,19 +1,44 @@
 use std::fs;
 use std::path::Path;
 
-pub static INDEX_HBS: &[u8] = include_bytes!("index.hbs");
-pub static REDIRECT_HBS: &[u8] = include_bytes!("redirect.hbs");
+pub static INDEX_HBS: &str = include_str!("index.hbs");
+pub static REDIRECT_HBS: &str = include_str!("redirect.hbs");
 
-pub static STYLE_CSS: &[u8] = include_bytes!("css/style.css");
-pub static VARIABLE_CSS: &[u8] = include_bytes!("css/variable.css");
+pub static STYLE_CSS: &str = include_str!("css/style.css");
+pub static VARIABLE_CSS: &str = include_str!("css/variable.css");
 
-pub static LINK_DARK_SVG: &[u8] = include_bytes!("img/link-dark.svg");
-pub static LINK_LIGHT_SVG: &[u8] = include_bytes!("img/link-light.svg");
+pub static LINK_DARK_SVG: &str = include_str!("img/link-dark.svg");
+pub static LINK_LIGHT_SVG: &str = include_str!("img/link-light.svg");
 
-pub static WIKI_JS: &[u8] = include_bytes!("js/wiki.js");
-pub static HIGHLIGHT_JS: &[u8] = include_bytes!("js/highlight.min.js");
+pub static WIKI_JS: &str = include_str!("js/wiki.js");
+pub static HIGHLIGHT_JS: &str = include_str!("js/highlight.min.js");
 
-pub fn init<P: AsRef<Path>>(out_dir: P) {
+pub async fn get_min(ext: &str, content: &str) -> String {
+    let url = match ext {
+        "css" => "https://cssminifier.com/raw",
+        "js" => "https://javascript-minifier.com/raw",
+        "html" => "https://html-minifier.com/raw",
+        _ => {
+            return String::from(content);
+        }
+    };
+
+    let mut body = Vec::from("input=");
+    body.append(&mut Vec::from(urlencoding::encode(content)));
+
+    let client = reqwest::Client::new();
+    let res = client
+        .post(url)
+        .header("Content-Type", "application/x-www-form-urlencoded")
+        .header("charset", "utf-8")
+        .body(body)
+        .send()
+        .await
+        .unwrap();
+    String::from_utf8(res.bytes().await.unwrap().to_vec()).unwrap()
+}
+
+pub async fn init<P: AsRef<Path>>(out_dir: P) {
     let out_dir = out_dir.as_ref();
     if out_dir.exists() {
         fs::remove_dir_all(&out_dir).expect(&*format!("failed to remove {:?}", out_dir));
@@ -34,28 +59,23 @@ pub fn init<P: AsRef<Path>>(out_dir: P) {
     fs::create_dir_all(out_dir.join("r/js"))
         .expect(&*format!("failed to make {:?}", out_dir.join("r/css")));
 
-    fs::write(out_dir.join("r").join(style_css_path), STYLE_CSS).expect(&*format!(
-        "failed to copy {:?}",
-        out_dir.join("r").join(style_css_path)
-    ));
-    fs::write(out_dir.join("r").join(variable_css_path), VARIABLE_CSS).expect(&*format!(
-        "failed to copy {:?}",
-        out_dir.join("r").join(variable_css_path)
-    ));
-    fs::write(out_dir.join("r").join(link_dark_svg_path), LINK_DARK_SVG).expect(&*format!(
-        "failed to copy {:?}",
-        out_dir.join("r").join(link_dark_svg_path)
-    ));
-    fs::write(out_dir.join("r").join(link_light_svg_path), LINK_LIGHT_SVG).expect(&*format!(
-        "failed to copy {:?}",
-        out_dir.join("r").join(link_light_svg_path)
-    ));
-    fs::write(out_dir.join("r").join(wiki_js_path), WIKI_JS).expect(&*format!(
-        "failed to copy {:?}",
-        out_dir.join("r").join(wiki_js_path)
-    ));
-    fs::write(out_dir.join("r").join(highlight_js_path), HIGHLIGHT_JS).expect(&*format!(
-        "failed to copy {:?}",
-        out_dir.join("r").join(highlight_js_path)
-    ));
+    futures::future::join_all(
+        vec![
+            (style_css_path, STYLE_CSS),
+            (variable_css_path, VARIABLE_CSS),
+            (link_dark_svg_path, LINK_DARK_SVG),
+            (link_light_svg_path, LINK_LIGHT_SVG),
+            (wiki_js_path, WIKI_JS),
+            (highlight_js_path, HIGHLIGHT_JS),
+        ]
+        .iter()
+        .map(|(path, content)| async move {
+            let content = get_min(path.extension().unwrap().to_str().unwrap(), content).await;
+            fs::write(out_dir.join("r").join(path), content).expect(&*format!(
+                "failed to copy {:?}",
+                out_dir.join("r").join(path)
+            ))
+        }),
+    )
+    .await;
 }

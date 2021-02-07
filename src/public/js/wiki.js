@@ -262,9 +262,10 @@ document.addEventListener('keydown', function (event) {
     if (searchState === 0) {
         onKey(event, 191, "/", openSearchBox);
     } else {
-        if (document.activeElement === input) {
-            onKey(event, 191, "/", input.focus);
-        } else {
+        if (document.activeElement !== input) {
+            onKey(event, 191, "/", function () {
+                input.focus();
+            });
             onKey(event, 27, "Escape", closeSearchBox);
         }
     }
@@ -324,7 +325,10 @@ function getCookie(name) {
 themeButton.addEventListener('click', changeTheme);
 
 (function () {
-    let theme = getCookie("theme") && "dark";
+    let theme = getCookie("theme");
+    if (theme === null) {
+        theme = "dark";
+    }
     if (document.getElementsByTagName("html")[0].classList[0] !== theme) {
         changeTheme();
     }
