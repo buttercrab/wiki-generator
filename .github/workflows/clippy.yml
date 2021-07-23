@@ -49,10 +49,10 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: clippy
-          args: --all-targets --features build -- -D warning
+          args: --all-targets --features build -- -D warnings
 
       - name: Clippy
         uses: actions-rs/cargo@v1
         with:
           command: clippy
-          args: --all-targets --features serve -- -D warning
+          args: --all-targets --features serve -- -D warnings
