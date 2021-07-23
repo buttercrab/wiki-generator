@@ -6,3 +6,5 @@ example/public
 .vscode
 
 .DS_Store
+
+Cargo.lock
