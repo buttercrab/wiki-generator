@@ -13,20 +13,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        build: [ stable, beta, nightly ]
-
-        include:
-          - build: stable
-            rust: stable
-
-          - build: beta
-            rust: beta
-
-          - build: nightly
-            rust: nightly
-
     steps:
       - uses: actions/checkout@v2
 
@@ -34,7 +20,7 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: ${{ matrix.rust }}
+          toolchain: nightly
           override: true
           components: rustfmt
 
