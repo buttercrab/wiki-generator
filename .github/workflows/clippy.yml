@@ -1,4 +1,4 @@
-name: Build
+name: clippy check
 
 on:
   push:

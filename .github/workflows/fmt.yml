@@ -1,4 +1,4 @@
-name: Build
+name: format check
 
 on:
   push:
