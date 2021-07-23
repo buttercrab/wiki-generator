@@ -36,15 +36,23 @@ jobs:
           profile: minimal
           toolchain: ${{ matrix.rust }}
           override: true
+          components: clippy
 
-      - name: Build
+      - name: Setting up rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: ${{ matrix.rust }}
+          override: true
+
+      - name: Clippy
         uses: actions-rs/cargo@v1
         with:
-          command: build
-          args: --all-targets --features build
+          command: clippy
+          args: --all-targets --features build -- -D warning
 
-      - name: Build
+      - name: Clippy
         uses: actions-rs/cargo@v1
         with:
-          command: build
-          args: --all-targets --features serve
+          command: clippy
+          args: --all-targets --features serve -- -D warning

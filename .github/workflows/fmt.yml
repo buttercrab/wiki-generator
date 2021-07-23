@@ -36,15 +36,10 @@ jobs:
           profile: minimal
           toolchain: ${{ matrix.rust }}
           override: true
+          components: rustfmt
 
-      - name: Build
+      - name: Checking if code is formatted
         uses: actions-rs/cargo@v1
         with:
-          command: build
-          args: --all-targets --features build
-
-      - name: Build
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --all-targets --features serve
+          command: fmt
+          args: --all -- --check

@@ -36,15 +36,16 @@ jobs:
           profile: minimal
           toolchain: ${{ matrix.rust }}
           override: true
+          components: clippy
 
-      - name: Build
+      - name: Test
         uses: actions-rs/cargo@v1
         with:
-          command: build
+          command: test
           args: --all-targets --features build
 
-      - name: Build
+      - name: Test
         uses: actions-rs/cargo@v1
         with:
-          command: build
+          command: test
           args: --all-targets --features serve
