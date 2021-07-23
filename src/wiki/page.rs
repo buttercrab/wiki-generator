@@ -1,4 +1,4 @@
-use crate::config::config::Config;
+use crate::config::Config;
 use crate::renderer::markdown;
 use crate::renderer::postprocess::{add_github_info, fix_footnotes, fix_header, fix_link};
 use crate::util::path;
@@ -36,7 +36,7 @@ impl Page {
         let out = out.as_ref();
 
         debug_assert_eq!(
-            path::os_to_str(from.extension().unwrap_or(OsStr::new(""))),
+            path::os_to_str(from.extension().unwrap_or_else(|| OsStr::new(""))),
             "md"
         );
 
@@ -48,7 +48,7 @@ impl Page {
         };
 
         let mut file_name = from.strip_prefix(src).unwrap().with_extension("");
-        if path::os_to_str(file_name.file_stem().unwrap_or(OsStr::new(""))) == "index" {
+        if path::os_to_str(file_name.file_stem().unwrap_or_else(|| OsStr::new(""))) == "index" {
             file_name = file_name.parent().unwrap().to_path_buf();
         }
         let file_name = file_name.join("index.html");

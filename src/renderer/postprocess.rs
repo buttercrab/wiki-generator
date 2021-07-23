@@ -25,7 +25,7 @@ pub fn fix_header<S: AsRef<str>>(html: S) -> String {
                 counter.pop();
             }
 
-            if counter.len() > 0 {
+            if !counter.is_empty() {
                 *counter.last_mut().unwrap() += 1;
             }
 
@@ -39,7 +39,7 @@ pub fn fix_header<S: AsRef<str>>(html: S) -> String {
 
             let typing = string::typing_effect(string::typing_process(string::unescape_html(content)))
                 .iter()
-                .map(|s| string::escape_html(s))
+                .map( string::escape_html)
                 .collect::<Vec<_>>();
 
             if level == 1 {
@@ -126,17 +126,17 @@ pub fn fix_link<S: AsRef<str>, P: AsRef<Path>>(
                 .unwrap()
                 .is_match(img_link)
             {
-                panic!(format!(
+                panic!(
                     "Image link {} from {:?} that is using outer link",
                     img_link, path
-                ));
+                );
             }
 
             if img_link.starts_with('/') {
-                panic!(format!(
+                panic!(
                     "Image link {} from {:?} that is using absolute path",
                     img_link, path
-                ))
+                );
             }
 
             let img_path = path::path_to_str(path::simplify(path.parent().unwrap().join(img_link)));
@@ -230,9 +230,9 @@ pub fn fix_link<S: AsRef<str>, P: AsRef<Path>>(
                     }
                     let title = s;
 
-                    let url = Url::parse(&*format!("https://example.com/w/{}", title))
+                    let url: String = Url::parse(&*format!("https://example.com/w/{}", title))
                         .unwrap()
-                        .into_string();
+                        .into();
                     let href = url.trim_start_matches("https://example.com");
                     let l = title.find('#');
                     let title_without_loc = if let Some(l) = l {
@@ -241,7 +241,7 @@ pub fn fix_link<S: AsRef<str>, P: AsRef<Path>>(
                         title.clone()
                     };
                     if t.is_empty() {
-                        t = title.clone();
+                        t = title;
                     }
                     let title_without_loc = string::unescape_html(title_without_loc);
 

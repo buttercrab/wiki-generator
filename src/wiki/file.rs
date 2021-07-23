@@ -64,7 +64,7 @@ impl File {
         };
 
         File {
-            from: from.clone().to_path_buf(),
+            from: from.to_path_buf(),
             to,
         }
     }

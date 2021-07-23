@@ -1,8 +1,8 @@
 use clap::Clap;
 #[cfg(feature = "serve")]
 use rocket_contrib::serve::StaticFiles;
-use wiki_generator::config::config;
-use wiki_generator::wiki::wiki::Wiki;
+use wiki_generator::config;
+use wiki_generator::wiki::Wiki;
 
 #[derive(Clap)]
 #[clap(version = "0.1", author = "Jaeyong Sung <jaeyong0201@gmail.com>")]

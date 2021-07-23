@@ -24,7 +24,7 @@ pub async fn get_min(ext: &str, content: &str) -> String {
     };
 
     let mut body = Vec::from("input=");
-    body.append(&mut Vec::from(urlencoding::encode(content)));
+    body.append(&mut Vec::from(urlencoding::encode(content).as_bytes()));
 
     let client = reqwest::Client::new();
     let res = client

@@ -23,7 +23,7 @@ pub fn typing_effect(v: Vec<String>) -> Vec<String> {
         let s = v.last().unwrap();
         let mut v = v.iter().map(|i| i.clone() + "_").collect::<Vec<_>>();
 
-        let p = format!("{}", s);
+        let p = s.to_string();
         let q = format!("{}_", s);
 
         v.push(q.clone());
@@ -36,8 +36,8 @@ pub fn typing_effect(v: Vec<String>) -> Vec<String> {
         v.push(q.clone());
         v.push(q.clone());
         v.push(q.clone());
-        v.push(q.clone());
-        v.push(p.clone());
+        v.push(q);
+        v.push(p);
 
         v
     }
@@ -61,14 +61,14 @@ pub fn typing_process<S: AsRef<str>>(s: S) -> Vec<String> {
 }
 
 pub fn hangul_detach(c: char) -> Vec<char> {
-    let i = c as u32;
+    let ascii = c as u32;
 
-    if i < 0xAC00 || i > 0xD7AF {
+    if !(0xAC00..=0xD7AF).contains(&ascii) {
         vec![c]
     } else {
-        let a = (i - 0xAC00) / 21 / 28;
-        let b = (i - 0xAC00 - a * 21 * 28) / 28;
-        let c = i - 0xAC00 - a * 21 * 28 - b * 28;
+        let first_index = (ascii - 0xAC00) / 21 / 28;
+        let second_index = (ascii - 0xAC00 - first_index * 21 * 28) / 28;
+        let third_index = ascii - 0xAC00 - first_index * 21 * 28 - second_index * 28;
 
         let first = vec![
             0x3131, // ㄱ
@@ -149,15 +149,15 @@ pub fn hangul_detach(c: char) -> Vec<char> {
 
         let build_hangul = |x, y, z| x * 21 * 28 + y * 28 + z + 0xAC00;
 
-        let mut r = vec![std::char::from_u32(first[a as usize]).unwrap()];
+        let mut r = vec![std::char::from_u32(first[first_index as usize]).unwrap()];
 
-        for i in middle[b as usize].iter() {
-            r.push(std::char::from_u32(build_hangul(a, *i, 0)).unwrap());
+        for i in middle[second_index as usize].iter() {
+            r.push(std::char::from_u32(build_hangul(first_index, *i, 0)).unwrap());
         }
 
-        if c > 0 {
-            for i in last[c as usize].iter() {
-                r.push(std::char::from_u32(build_hangul(a, b, *i)).unwrap());
+        if third_index > 0 {
+            for i in last[third_index as usize].iter() {
+                r.push(std::char::from_u32(build_hangul(first_index, second_index, *i)).unwrap());
             }
         }
 
