@@ -18,7 +18,7 @@ rocket = { version = "0.4", optional = true }
 rocket_contrib = { version = "0.4", optional = true }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-sha2 = "0.9.5"
+sha2 = "0.10.1"
 tokio = { version = "1.8", features = ["macros"] }
 toml = "0.5"
 url = "2.2"
