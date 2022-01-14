@@ -9,11 +9,11 @@ pub fn unescape_html<S: AsRef<str>>(s: S) -> String {
 
 pub fn escape_html<S: AsRef<str>>(s: S) -> String {
     s.as_ref()
-        .replace("&", "&amp;")
-        .replace("<", "&lt;")
-        .replace(">", "&gt;")
+        .replace('&', "&amp;")
+        .replace('<', "&lt;")
+        .replace('>', "&gt;")
         .replace("  ", "&nbsp;&nbsp;")
-        .replace("\"", "&quot;")
+        .replace('\"', "&quot;")
 }
 
 pub fn typing_effect(v: Vec<String>) -> Vec<String> {
