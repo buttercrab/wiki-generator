@@ -32,7 +32,7 @@ pub fn get_title<S: AsRef<str>>(content: S) -> Option<String> {
     if title.len() != 1 {
         None
     } else {
-        Some(string::unescape_html(title[0][1].to_string()))
+        Some(string::unescape_html(&title[0][1]))
     }
 }
 
