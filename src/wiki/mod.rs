@@ -49,7 +49,7 @@ impl Wiki {
             if path::os_to_str(file.extension().unwrap_or_else(|| OsStr::new(""))) == "md" {
                 pages.push(Page::new(file, &src_dir, &out_dir, &config.wiki.preserve));
                 if !github_url.is_empty() {
-                    let from = path::path_to_str(file.to_path_buf());
+                    let from = path::path_to_str(file);
                     contrib_urls.push((
                         from.clone(),
                         format!(

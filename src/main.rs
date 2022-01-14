@@ -1,28 +1,28 @@
-use clap::Clap;
+use clap::Parser;
 #[cfg(feature = "serve")]
 use rocket_contrib::serve::StaticFiles;
 use wiki_generator::config;
 use wiki_generator::wiki::Wiki;
 
-#[derive(Clap)]
+#[derive(Parser, Debug)]
 #[clap(version = "0.1", author = "Jaeyong Sung <jaeyong0201@gmail.com>")]
 struct Opts {
     #[clap(subcommand)]
     sub: SubCommand,
 }
 
-#[derive(Clap)]
+#[derive(Parser, Debug)]
 enum SubCommand {
     Build(Build),
     #[cfg(feature = "serve")]
     Serve(Serve),
 }
 
-#[derive(Clap)]
+#[derive(Parser, Debug)]
 struct Build {}
 
 #[cfg(feature = "serve")]
-#[derive(Clap)]
+#[derive(Parser, Debug)]
 struct Serve {}
 
 async fn build() {
