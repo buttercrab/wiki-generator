@@ -63,7 +63,7 @@ impl Wiki {
                 files.push(File::new(file, &src_dir, &out_dir, &config.wiki.preserve));
                 file_map.insert(
                     path::path_to_str(&files.last().unwrap().from),
-                    path::path_to_str(&files.last().unwrap().to.strip_prefix(&out_dir).unwrap()),
+                    path::path_to_str(files.last().unwrap().to.strip_prefix(&out_dir).unwrap()),
                 );
             }
         }
@@ -89,7 +89,7 @@ impl Wiki {
 
             let cont_id = Regex::new(r##"href="/(.*?)""##)
                 .unwrap()
-                .captures_iter(&*contributors)
+                .captures_iter(&contributors)
                 .map(|c| String::from(&c[1]))
                 .collect::<Vec<_>>();
 
@@ -97,7 +97,7 @@ impl Wiki {
                 String::from(r##"<div class="description"><span>기여자:&nbsp;</span></div>"##);
             for id in cont_id.iter() {
                 cont_html.push_str(
-                    &*format!(
+                    &format!(
                         r##"<a href="https://github.com/{id}" target="_blank"><span title="{id}"><img src="https://github.com/{id}.png?size=32" width="24" height="24" alt="@{id}"/></span></a>"##,
                         id = id,
                     )
@@ -224,6 +224,7 @@ impl Wiki {
                 .clone()
                 .unwrap_or_else(|| "public".to_string()),
         );
-        fs::remove_dir_all(out_dir.join("t")).expect(&*format!("failed to remove {:?}", out_dir));
+        fs::remove_dir_all(out_dir.join("t"))
+            .unwrap_or_else(|_| panic!("failed to remove {:?}", out_dir));
     }
 }

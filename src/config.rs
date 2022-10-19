@@ -26,6 +26,6 @@ pub struct Html {
 }
 
 pub fn get_config() -> Config {
-    toml::from_str(&*fs::read_to_string("wiki.toml").expect("failed to locate wiki.toml"))
+    toml::from_str(&fs::read_to_string("wiki.toml").expect("failed to locate wiki.toml"))
         .expect("toml parsing failed")
 }

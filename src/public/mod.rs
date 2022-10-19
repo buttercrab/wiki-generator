@@ -41,9 +41,9 @@ pub async fn get_min(ext: &str, content: &str) -> String {
 pub async fn init<P: AsRef<Path>>(out_dir: P) {
     let out_dir = out_dir.as_ref();
     if out_dir.exists() {
-        fs::remove_dir_all(&out_dir).expect(&*format!("failed to remove {:?}", out_dir));
+        fs::remove_dir_all(out_dir).unwrap_or_else(|_| panic!("failed to remove {:?}", out_dir));
     }
-    fs::create_dir(&out_dir).expect("failed to make public/");
+    fs::create_dir(out_dir).expect("failed to make public/");
 
     let style_css_path = Path::new("css/style.css");
     let variable_css_path = Path::new("css/variable.css");
@@ -53,11 +53,11 @@ pub async fn init<P: AsRef<Path>>(out_dir: P) {
     let highlight_js_path = Path::new("js/highlight.min.js");
 
     fs::create_dir_all(out_dir.join("r/css"))
-        .expect(&*format!("failed to make {:?}", out_dir.join("r/css")));
+        .unwrap_or_else(|_| panic!("failed to make {:?}", out_dir.join("r/css")));
     fs::create_dir_all(out_dir.join("r/img"))
-        .expect(&*format!("failed to make {:?}", out_dir.join("r/css")));
+        .unwrap_or_else(|_| panic!("failed to make {:?}", out_dir.join("r/css")));
     fs::create_dir_all(out_dir.join("r/js"))
-        .expect(&*format!("failed to make {:?}", out_dir.join("r/css")));
+        .unwrap_or_else(|_| panic!("failed to make {:?}", out_dir.join("r/css")));
 
     futures::future::join_all(
         vec![
@@ -71,10 +71,8 @@ pub async fn init<P: AsRef<Path>>(out_dir: P) {
         .iter()
         .map(|(path, content)| async move {
             let content = get_min(path.extension().unwrap().to_str().unwrap(), content).await;
-            fs::write(out_dir.join("r").join(path), content).expect(&*format!(
-                "failed to copy {:?}",
-                out_dir.join("r").join(path)
-            ))
+            fs::write(out_dir.join("r").join(path), content)
+                .unwrap_or_else(|_| panic!("failed to copy {:?}", out_dir.join("r").join(path)))
         }),
     )
     .await;

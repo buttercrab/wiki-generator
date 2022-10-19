@@ -41,9 +41,8 @@ impl Page {
         );
 
         let preserve = match preserve {
-            Some(preserve) => preserve.contains(
-                &path::path_to_str(from.strip_prefix(&src).unwrap()).to_ascii_lowercase(),
-            ),
+            Some(preserve) => preserve
+                .contains(&path::path_to_str(from.strip_prefix(src).unwrap()).to_ascii_lowercase()),
             None => false,
         };
 
@@ -71,18 +70,19 @@ impl Page {
 
     /// Pre-render markdown to html
     pub fn pre_render(&mut self) {
-        let content =
-            fs::read_to_string(&self.from).expect(&*format!("reading from {:?} failed", self.from));
+        let content = fs::read_to_string(&self.from)
+            .unwrap_or_else(|_| panic!("reading from {:?} failed", self.from));
         let content = markdown::cmark_to_html(content);
 
-        self.title =
-            markdown::get_title(&content).expect(&*format!("Title not found in {:?}", self.from));
+        self.title = markdown::get_title(&content)
+            .unwrap_or_else(|| panic!("Title not found in {:?}", self.from));
         if !self.preserve {
             self.to = self.to.join(&self.title).join("index.html");
         }
 
         path::make_dir_above(&self.temp);
-        fs::write(&self.temp, &content).expect(&*format!("writing to {:?} failed", self.temp));
+        fs::write(&self.temp, &content)
+            .unwrap_or_else(|_| panic!("writing to {:?} failed", self.temp));
     }
 
     /// Render main html
@@ -98,8 +98,8 @@ impl Page {
         print!("Rendering {:?} ...", self.from);
         io::stdout().flush().unwrap();
 
-        let content =
-            fs::read_to_string(&self.temp).expect(&*format!("reading from {:?} failed", self.temp));
+        let content = fs::read_to_string(&self.temp)
+            .unwrap_or_else(|_| panic!("reading from {:?} failed", self.temp));
 
         let content = fix_link(content, &self.from, file_map, titles);
         let content = fix_footnotes(content);
@@ -127,12 +127,12 @@ impl Page {
 
         let html = handlebars
             .render("index.hbs", &data)
-            .expect(&*format!("render {:?} failed", self.from));
+            .unwrap_or_else(|_| panic!("render {:?} failed", self.from));
 
         let html = fix_header(html);
 
         path::make_dir_above(&self.to);
-        fs::write(&self.to, html).expect(&*format!("writing to {:?} failed", self.to));
+        fs::write(&self.to, html).unwrap_or_else(|_| panic!("writing to {:?} failed", self.to));
 
         println!(" done");
     }

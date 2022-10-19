@@ -50,7 +50,7 @@ impl File {
             let res = &hasher.finalize()[..];
             let mut hash = String::new();
             for i in 0..8 {
-                hash.push_str(&*format!("{:02x}", res[i]));
+                hash.push_str(&format!("{:02x}", res[i]));
             }
 
             Path::new(out)
@@ -71,6 +71,6 @@ impl File {
 
     pub fn copy(&self) {
         path::make_dir_above(&self.to);
-        fs::copy(&self.from, &self.to).expect(&*format!("failed to move {:?}", self.from));
+        fs::copy(&self.from, &self.to).unwrap_or_else(|_| panic!("failed to move {:?}", self.from));
     }
 }

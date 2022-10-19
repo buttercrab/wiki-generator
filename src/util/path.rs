@@ -14,7 +14,7 @@ pub fn get_files_all<P: AsRef<Path>>(path: P) -> Vec<PathBuf> {
 
 pub fn make_dir_above<P: AsRef<Path>>(path: P) {
     fs::create_dir_all(path.as_ref().parent().unwrap())
-        .expect(&*format!("make dir above {:?} failed", path.as_ref()));
+        .unwrap_or_else(|_| panic!("make dir above {:?} failed", path.as_ref()));
 }
 
 pub fn os_to_str<O: AsRef<OsStr>>(os: O) -> String {

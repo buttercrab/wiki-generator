@@ -49,7 +49,7 @@ pub fn get_time<P: AsRef<Path>>(path: P) -> String {
     )
     .expect("parse error");
 
-    let time = chrono::DateTime::parse_from_str(&*time, "%a %b %-d %H:%M:%S %Y %z%n")
+    let time = chrono::DateTime::parse_from_str(&time, "%a %b %-d %H:%M:%S %Y %z%n")
         .expect("date parse fail");
 
     format!(
