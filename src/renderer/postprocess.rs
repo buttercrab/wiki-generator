@@ -34,7 +34,7 @@ pub fn fix_header<S: AsRef<str>>(html: S) -> String {
 
             for x in counter.iter() {
                 number.push_str(&format!("{}.", x));
-                id.push_str(&*format!("{}-", x));
+                id.push_str(&format!("{}-", x));
             }
 
             let typing = string::typing_effect(string::typing_process(string::unescape_html(content)))
@@ -82,7 +82,7 @@ addOnload(writeTitle);
                 let regex = Regex::new(r#"<a.+>(.+?)</a>"#).unwrap();
                 let text = regex.replace_all(content, |cap: &Captures<'_>| cap[1].to_string()).into_owned();
 
-                toc.push_str(&*format!(
+                toc.push_str(&format!(
                     r##"<a href="#{id}">{number} {text}</a>"##,
                     id = id,
                     number = number,
@@ -105,7 +105,7 @@ addOnload(writeTitle);
         toc_level -= 1;
     }
 
-    s.replace(r"<!-- :toc: -->", &*toc)
+    s.replace(r"<!-- :toc: -->", &toc)
 }
 
 pub fn fix_link<S: AsRef<str>, P: AsRef<Path>>(
@@ -142,7 +142,7 @@ pub fn fix_link<S: AsRef<str>, P: AsRef<Path>>(
             let img_path = path::path_to_str(path::simplify(path.parent().unwrap().join(img_link)));
             let to = file_map
                 .get(&*img_path)
-                .expect(&*format!("No image {:?} from {:?}", img_link, path));
+                .unwrap_or_else(|| panic!("No image {:?} from {:?}", img_link, path));
 
             format!("{}/{}\"", &caps[1], to)
         })
@@ -150,7 +150,7 @@ pub fn fix_link<S: AsRef<str>, P: AsRef<Path>>(
 
     let html = Regex::new(r#"<a (.*?)>"#)
         .unwrap()
-        .replace_all(&*html, |caps: &Captures<'_>| {
+        .replace_all(&html, |caps: &Captures<'_>| {
             let attrs = &caps[1];
             let href = &Regex::new(r#"href="(.*?)""#)
                 .unwrap()
@@ -230,7 +230,7 @@ pub fn fix_link<S: AsRef<str>, P: AsRef<Path>>(
                     }
                     let title = s;
 
-                    let url: String = Url::parse(&*format!("https://example.com/w/{}", title))
+                    let url: String = Url::parse(&format!("https://example.com/w/{}", title))
                         .unwrap()
                         .into();
                     let href = url.trim_start_matches("https://example.com");
@@ -268,7 +268,7 @@ pub fn fix_link<S: AsRef<str>, P: AsRef<Path>>(
 
     for m in Regex::new(r#"(?:<h1>[\s\S]*?</h1>|<code>[\s\S]*?</code>)"#)
         .unwrap()
-        .find_iter(&*html)
+        .find_iter(&html)
     {
         range.push((idx, m.start()));
         idx = m.end();
@@ -349,7 +349,7 @@ pub fn fix_footnotes<S: AsRef<str>>(html: S) -> String {
     let html =
         Regex::new(r##"(<sup class="footnote-reference"><a) href="#(.*?)">([\s\S]*?)</a></sup>"##)
             .unwrap()
-            .replace_all(&*html, |caps: &Captures<'_>| {
+            .replace_all(&html, |caps: &Captures<'_>| {
                 format!(
                     r##"{} id="b-{id}">{}</a></sup>"##,
                     &caps[1],
