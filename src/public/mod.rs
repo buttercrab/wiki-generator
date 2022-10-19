@@ -15,9 +15,9 @@ pub static HIGHLIGHT_JS: &str = include_str!("js/highlight.min.js");
 
 pub async fn get_min(ext: &str, content: &str) -> String {
     let url = match ext {
-        "css" => "https://cssminifier.com/raw",
-        "js" => "https://javascript-minifier.com/raw",
-        "html" => "https://html-minifier.com/raw",
+        "css" => "https://www.toptal.com/developers/cssminifier/api/raw",
+        "js" => "https://www.toptal.com/developers/javascript-minifier/api/raw",
+        "html" => "https://www.toptal.com/developers/html-minifier/api/raw",
         _ => {
             return String::from(content);
         }
