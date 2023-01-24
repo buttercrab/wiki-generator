@@ -33,8 +33,8 @@ pub fn fix_header<S: AsRef<str>>(html: S) -> String {
             let mut id = String::from("s-");
 
             for x in counter.iter() {
-                number.push_str(&format!("{}.", x));
-                id.push_str(&format!("{}-", x));
+                number.push_str(&format!("{x}."));
+                id.push_str(&format!("{x}-"));
             }
 
             let typing = string::typing_effect(string::typing_process(string::unescape_html(content)))
@@ -51,9 +51,9 @@ function sleep(ms) {{
 }}
 
 async function writeTitle() {{
-    let s = {:?};
+    let s = {typing:?};
     let title = document.getElementsByClassName('title')[0];
-    for(let i in s) {{
+    for (let i in s) {{
         title.innerHTML = s[i];
         await sleep(100);
     }}
@@ -61,9 +61,7 @@ async function writeTitle() {{
 
 addOnload(writeTitle);
 </script>
-<h{level} class="heading title">_</h{level}>"##,
-                    typing,
-                    level = level,
+<h{level} class="heading title">_</h{level}>"##
                 )
             } else {
                 if toc_level < level {
@@ -84,17 +82,10 @@ addOnload(writeTitle);
 
                 toc.push_str(&format!(
                     r##"<a href="#{id}">{number} {text}</a>"##,
-                    id = id,
-                    number = number,
-                    text = text,
                 ));
 
                 format!(
-                    r##"<h{level} class="heading"><a href="#{id}" id="{id}">{number}</a> {text}</h{level}>"##,
-                    level = level,
-                    id = id,
-                    number = number,
-                    text = content
+                    r##"<h{level} class="heading"><a href="#{id}" id="{id}">{number}</a> {content}</h{level}>"##
                 )
             }
         })
@@ -164,16 +155,13 @@ pub fn fix_link<S: AsRef<str>, P: AsRef<Path>>(
                         .replace_all(attrs, |caps: &Captures<'_>| {
                             let mut class = caps[1].to_string();
                             class.push_str(" outer");
-                            format!(r#"class="{}""#, class)
+                            format!(r#"class="{class}""#)
                         })
                         .to_string();
 
-                    format!(r#"<a {attrs}>"#, attrs = attrs)
+                    format!(r#"<a {attrs}>"#)
                 } else {
-                    format!(
-                        r#"<a {attrs} class="outer" target="_blank">"#,
-                        attrs = attrs
-                    )
+                    format!(r#"<a {attrs} class="outer" target="_blank">"#)
                 }
             } else {
                 caps[0].to_string()
@@ -230,7 +218,7 @@ pub fn fix_link<S: AsRef<str>, P: AsRef<Path>>(
                     }
                     let title = s;
 
-                    let url: String = Url::parse(&format!("https://example.com/w/{}", title))
+                    let url: String = Url::parse(&format!("https://example.com/w/{title}"))
                         .unwrap()
                         .into();
                     let href = url.trim_start_matches("https://example.com");
@@ -246,13 +234,9 @@ pub fn fix_link<S: AsRef<str>, P: AsRef<Path>>(
                     let title_without_loc = string::unescape_html(title_without_loc);
 
                     if titles.contains(&title_without_loc) {
-                        format!(r##"<a href="{href}">{title}</a>"##, href = href, title = t)
+                        format!(r##"<a href="{href}">{t}</a>"##)
                     } else {
-                        format!(
-                            r##"<a class="no-link" href="{href}">{title}</a>"##,
-                            href = href,
-                            title = t
-                        )
+                        format!(r##"<a class="no-link" href="{href}">{t}</a>"##)
                     }
                 })
                 .to_string();

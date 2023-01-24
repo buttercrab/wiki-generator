@@ -52,7 +52,7 @@ impl Page {
         }
         let file_name = file_name.join("index.html");
 
-        let temp = Path::new(out).join("t").join(&file_name);
+        let temp = Path::new(out).join("t").join(file_name);
         let to = if preserve {
             Path::new(out).join(from.strip_prefix(src).unwrap())
         } else {

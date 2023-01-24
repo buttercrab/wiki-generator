@@ -24,7 +24,7 @@ pub fn typing_effect(v: Vec<String>) -> Vec<String> {
         let mut v = v.iter().map(|i| i.clone() + "_").collect::<Vec<_>>();
 
         let p = s.to_string();
-        let q = format!("{}_", s);
+        let q = format!("{s}_");
 
         v.push(q.clone());
         v.push(q.clone());
