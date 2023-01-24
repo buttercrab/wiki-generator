@@ -52,11 +52,7 @@ impl Wiki {
                     let from = path::path_to_str(file);
                     contrib_urls.push((
                         from.clone(),
-                        format!(
-                            "{github_url}/contributors-list/master/{path}",
-                            github_url = github_url,
-                            path = from
-                        ),
+                        format!("{github_url}/contributors-list/master/{from}"),
                     ));
                 }
             } else {
@@ -99,7 +95,6 @@ impl Wiki {
                 cont_html.push_str(
                     &format!(
                         r##"<a href="https://github.com/{id}" target="_blank"><span title="{id}"><img src="https://github.com/{id}.png?size=32" width="24" height="24" alt="@{id}"/></span></a>"##,
-                        id = id,
                     )
                 );
             }
@@ -193,7 +188,7 @@ impl Wiki {
 
         if let Some(m) = &self.config.wiki.main {
             let mut data = serde_json::Map::new();
-            data.insert("url".to_string(), json!(format!("/w/{}", m)));
+            data.insert("url".to_string(), json!(format!("/w/{m}")));
             let html = handlebars.render("redirect.hbs", &data).unwrap();
             let out_dir = PathBuf::from(
                 &self
